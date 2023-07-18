@@ -5,7 +5,10 @@ import Home from "@/pages/Home";
 import NotFound from "../pages/NotFound";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
-import Dashboard from "../pages/Dashboard/Dashboard";
+
+import OwnerDashboard from "../pages/OwnerDashboard/OwnerDashboard";
+import OwnerHouses from "../pages/OwnerDashboard/OwnerHouses";
+import Bookings from "../pages/OwnerDashboard/Bookings";
 
 const routes = createBrowserRouter([
   {
@@ -32,13 +35,17 @@ const routes = createBrowserRouter([
     element: <NotFound />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
+    path: "/owner-dashboard",
+    element: <OwnerDashboard />,
     children: [
-      // {
-      //   path: "/dashboard",
-      //   element : <Settings/>
-      // }
+      {
+        path: "/owner-dashboard",
+        element: <OwnerHouses />,
+      },
+      {
+        path: "bookings",
+        element: <Bookings />,
+      },
     ],
   },
 ]);
