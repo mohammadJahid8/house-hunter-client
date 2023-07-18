@@ -5,6 +5,7 @@ import Home from "@/pages/Home";
 import NotFound from "../pages/NotFound";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 const routes = createBrowserRouter([
   {
@@ -30,16 +31,16 @@ const routes = createBrowserRouter([
     path: "*",
     element: <NotFound />,
   },
-  // {
-  //   path: '/dashboard',
-  //   element: <DashboardLayout/>,
-  //   children: [
-  //     {
-  //       path: "/dashboard",
-  //       element : <Settings/>
-  //     }
-  //   ]
-  // }
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+    children: [
+      // {
+      //   path: "/dashboard",
+      //   element : <Settings/>
+      // }
+    ],
+  },
 ]);
 
 export default routes;
