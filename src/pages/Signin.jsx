@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { UserAuthContext } from "../context/userContext";
 
 export default function Signin() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { userRefetch, setUserRefetch } = useContext(UserAuthContext);
 
   const handleSignin = async (event) => {
     window.scrollTo(0, 0);
@@ -29,12 +31,14 @@ export default function Signin() {
           toast.success("Signin successful!");
           localStorage.setItem("houseToken", res.data.data.accessToken);
           setIsLoading(false);
+          setUserRefetch(!userRefetch);
           navigate("/");
         }
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
+        setError(err?.response?.data?.message);
         toast.error("Something went wrong! Please try again.");
       });
   };
@@ -64,7 +68,7 @@ export default function Signin() {
             />
           </div>
           {error && (
-            <p color="red" className="font-sans text-xs text-red-800">
+            <p color="red" className="font-sans text-sm text-red-700">
               {error}
             </p>
           )}

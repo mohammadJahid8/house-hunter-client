@@ -15,17 +15,17 @@ export default function UserAuthProvider({ children }) {
 
   useEffect(() => {
     const getUser = async () => {
-      const localToken = localStorage.getItem("heroHunter");
+      const localToken = localStorage.getItem("houseToken");
       if (localToken) {
         await axios
-          .get("https://localhost:5000/current-user", {
+          .get("http://localhost:5000/api/v1/users/my-profile", {
             headers: {
-              authorization: `Bearer ${localToken}`,
+              authorization: `${localToken}`,
             },
           })
           .then((res) => {
             if (res.status === 200) {
-              setUser(res.data.result);
+              setUser(res.data.data);
             }
           })
           .finally(() => {});
@@ -37,11 +37,11 @@ export default function UserAuthProvider({ children }) {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("hunterUser");
+    localStorage.removeItem("houseToken");
 
     swal({
       title: "Success",
-      text: `Sign out successfully.`,
+      text: `You have been logged out!`,
       icon: "success",
       button: "OK!",
       className: "modal_class_success",
@@ -56,6 +56,8 @@ export default function UserAuthProvider({ children }) {
         setUser,
         token,
         setToken,
+        setUserRefetch,
+        userRefetch,
       }}
     >
       {children}
