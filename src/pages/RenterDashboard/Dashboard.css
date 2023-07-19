@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600&family=Sofia+Sans+Extra+Condensed&family=Unbounded&display=swap");
+
+.dashboardhead {
+  height: 60px;
+  padding: 2px 20px 4.898px 24px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  background: #131212;
+
+  border: 1px solid #30363d;
+  box-shadow: 0 8px 32px 0 rgba(2, 2, 5, 0.37);
+  backdrop-filter: blur(0.5px);
+  -webkit-backdrop-filter: blur(0.5px);
+}

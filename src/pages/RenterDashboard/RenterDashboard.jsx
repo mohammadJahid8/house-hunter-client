@@ -1,4 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
+import "./Dashboard.css";
+import houselogo from "../../assets/houseLogo.png";
 
 const RenterDashboard = () => {
   return (
@@ -31,7 +33,13 @@ const RenterDashboard = () => {
           className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
           aria-label="Sidebar"
         >
-          <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+          <div className="h-full px-3 py-4 overflow-y-auto bg-[#262626] text-white">
+            <Link to="/">
+              <div className="mb-4 dashboardhead flex items-center gap-2">
+                <img src={houselogo} className="w-6 h-6 inline" />
+                <h1 className="text-[19px] ">House Hunter</h1>
+              </div>
+            </Link>
             <h1
               className="mb-4"
               style={{
