@@ -28,7 +28,9 @@ export default function NavbarHead() {
           Home
         </Typography>
       </Link>
-      <Link to="/dashboard">
+      <Link
+        to={user?.role === "owner" ? "owner-dashboard" : "renter-dashboard"}
+      >
         <Typography
           as="li"
           variant="small"
@@ -116,11 +118,24 @@ export default function NavbarHead() {
         </div>
         <Collapse open={openNav}>
           {navList}
-          <Link to="/signin">
-            <Button variant="gradient" size="sm" fullWidth className="mb-2">
-              <span>SIGN IN</span>
+
+          {user?.email ? (
+            <Button
+              variant="gradient"
+              size="sm"
+              fullWidth
+              className="mb-2"
+              onClick={() => logout()}
+            >
+              <span>SIGN OUT</span>
             </Button>
-          </Link>
+          ) : (
+            <Link to="/signin">
+              <Button variant="gradient" size="sm" fullWidth className="mb-2">
+                <span>SIGN IN</span>
+              </Button>
+            </Link>
+          )}
         </Collapse>
       </Navbar>
     </>

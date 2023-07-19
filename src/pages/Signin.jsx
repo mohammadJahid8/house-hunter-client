@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuthContext } from "../context/userContext";
+import swal from "sweetalert";
 
 export default function Signin() {
   const [error, setError] = useState("");
@@ -28,7 +29,10 @@ export default function Signin() {
         console.log(res.data.data.accessToken);
 
         if (res.data.success === true) {
-          toast.success("Signin successful!");
+          swal({
+            text: `Signin Successful!`,
+            icon: "success",
+          });
           localStorage.setItem("houseToken", res.data.data.accessToken);
           setIsLoading(false);
           setUserRefetch(!userRefetch);
