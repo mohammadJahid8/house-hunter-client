@@ -1,8 +1,9 @@
 import { useContext } from "react";
 import HouseSearch from "./HouseSearch";
-
+import "./HomeHouses.css";
 import { UserAuthContext } from "../../context/userContext";
 import { Link } from "react-router-dom";
+import { TfiFaceSad } from "react-icons/tfi";
 
 const HomeHouses = () => {
   const {
@@ -30,23 +31,23 @@ const HomeHouses = () => {
                 {filteredProperties?.map((property, index) => (
                   <div
                     key={index}
-                    className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full border  rounded-lg shadow  house-card-body"
                   >
-                    <a href="#">
+                    <a>
                       <img
-                        className=" rounded-t-lg"
+                        className=" rounded-t-lg w-full"
                         src={property.picture}
                         alt="product image"
                       />
                     </a>
                     <div className="px-3 pt-4 pb-5">
                       <a href="#">
-                        <h5 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white house-name">
+                        <h5 className="text-lg font-semibold tracking-tight text-white house-name">
                           {property.name}
                         </h5>
                       </a>
                       <a href="#">
-                        <h5 className="text-lg font-medium tracking-tight text-gray-500 dark:text-white">
+                        <h5 className="text-md font-medium tracking-tight text-gray-400">
                           {property.address} {property.city}
                         </h5>
                       </a>
@@ -101,7 +102,7 @@ const HomeHouses = () => {
                         </span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-gray-900 dark:text-white">
+                        <span className="text-lg font-bold text-white">
                           ${property.rentPerMonth}
                         </span>
                         {user?.role === "renter" && (
@@ -155,7 +156,10 @@ const HomeHouses = () => {
           )}
         </>
       ) : (
-        <p className="text-center">No houses found</p>
+        <p className="text-center text-red-500">
+          <TfiFaceSad className="text-4xl inline mr-2" />
+          No houses found!
+        </p>
       )}
     </div>
   );
