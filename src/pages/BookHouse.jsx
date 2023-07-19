@@ -18,11 +18,14 @@ const BookHouse = () => {
       const localToken = localStorage.getItem("houseToken");
       if (localToken) {
         await axios
-          .get(`http://localhost:5000/api/v1/house/${id}`, {
-            headers: {
-              authorization: `${localToken}`,
-            },
-          })
+          .get(
+            `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
+            {
+              headers: {
+                authorization: `${localToken}`,
+              },
+            }
+          )
           .then((res) => {
             console.log(res.data);
             if (res.status === 200) {
@@ -44,11 +47,15 @@ const BookHouse = () => {
     };
 
     await axios
-      .post(`http://localhost:5000/api/v1/bookings`, data, {
-        headers: {
-          authorization: `${localStorage.getItem("houseToken")}`,
-        },
-      })
+      .post(
+        `https://house-hunter-server-bay.vercel.app/api/v1/bookings`,
+        data,
+        {
+          headers: {
+            authorization: `${localStorage.getItem("houseToken")}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
 

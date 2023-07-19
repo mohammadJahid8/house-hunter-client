@@ -24,7 +24,10 @@ export default function Signin() {
     const data = Object.fromEntries(formData);
 
     await axios
-      .post("http://localhost:5000/api/v1/auth/login", data)
+      .post(
+        "https://house-hunter-server-bay.vercel.app/api/v1/auth/login",
+        data
+      )
       .then((res) => {
         console.log(res.data.data.accessToken);
 

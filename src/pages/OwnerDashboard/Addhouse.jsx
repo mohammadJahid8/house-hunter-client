@@ -37,7 +37,7 @@ const Addhouse = () => {
     }
 
     await axios
-      .post("http://localhost:5000/api/v1/house", data, {
+      .post("https://house-hunter-server-bay.vercel.app/api/v1/house", data, {
         headers: {
           authorization: `${localStorage.getItem("houseToken")}`,
         },

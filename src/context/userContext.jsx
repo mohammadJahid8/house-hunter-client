@@ -37,11 +37,14 @@ export default function UserAuthProvider({ children }) {
         console.log("currentPage", currentPage);
 
         await axios
-          .get(`http://localhost:5000/api/v1/house?page=${currentPage}`, {
-            headers: {
-              authorization: `${localToken}`,
-            },
-          })
+          .get(
+            `https://house-hunter-server-bay.vercel.app/api/v1/house?page=${currentPage}`,
+            {
+              headers: {
+                authorization: `${localToken}`,
+              },
+            }
+          )
           .then((res) => {
             console.log(res.data);
             if (res.status === 200) {
@@ -174,11 +177,14 @@ export default function UserAuthProvider({ children }) {
       const localToken = localStorage.getItem("houseToken");
       if (localToken) {
         await axios
-          .get("http://localhost:5000/api/v1/users/my-profile", {
-            headers: {
-              authorization: `${localToken}`,
-            },
-          })
+          .get(
+            "https://house-hunter-server-bay.vercel.app/api/v1/users/my-profile",
+            {
+              headers: {
+                authorization: `${localToken}`,
+              },
+            }
+          )
           .then((res) => {
             if (res.status === 200) {
               setUser(res.data.data);
