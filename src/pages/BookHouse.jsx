@@ -9,7 +9,8 @@ const BookHouse = () => {
   const navigate = useNavigate();
   const [house, setHouse] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { user } = useContext(UserAuthContext);
+  const [error, setError] = useState("");
+  const { user, refetchHouse, setrefetchHouse } = useContext(UserAuthContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -38,7 +39,8 @@ const BookHouse = () => {
     getSingleHouse();
   }, [id]);
 
-  const handleBookHouse = async () => {
+  const handleBookHouse = async (e) => {
+    e.preventDefault();
     const data = {
       house: house?._id,
       renter: user?.email,
@@ -46,6 +48,15 @@ const BookHouse = () => {
       owner: user?.email,
     };
 
+    const phoneNumber = e.target.number.value;
+
+    const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
+
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setError("Please enter a Bangladeshi phone number!");
+      setIsLoading(false);
+      return;
+    }
     await axios
       .post(
         `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
@@ -60,10 +71,12 @@ const BookHouse = () => {
         console.log(res);
 
         if (res.data.success === true) {
+          setrefetchHouse(!refetchHouse);
           swal({
             title: "House booked successfully!",
             icon: "success",
           });
+          navigate(-1);
         }
       })
       .catch((err) => {
@@ -77,104 +90,115 @@ const BookHouse = () => {
 
   return (
     <div className="px-8 mt-28">
-      <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4 ">
+      <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4 text-white">
         Book House
       </h4>
 
       {isLoading ? (
-        <p className="text-center">Loading...</p>
+        <p className="text-center text-blue-400">Loading...</p>
       ) : (
         <>
           <div className="flex justify-center mb-4">
-            <img src={house?.picture} className="flex justify-center w-96" />
+            <img
+              src={house?.picture}
+              className="flex justify-center w-96 rounded"
+            />
           </div>
 
-          <dl className=" text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
-            <div className="flex flex-col md:flex-row md:justify-between">
-              <div className="flex flex-col pb-3">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Name
-                </dt>
-                <dd className="text-lg font-semibold">{house?.name}</dd>
-              </div>
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Address
-                </dt>
-                <dd className="text-lg font-semibold">
-                  {house?.address}, {house?.city}
-                </dd>
-              </div>
-
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Availability Date
-                </dt>
-                <dd className="text-lg font-semibold">
-                  {house?.availabilityDate}
-                </dd>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:justify-between">
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Bedrooms
-                </dt>
-                <dd className="text-lg font-semibold">{house?.bedrooms}</dd>
-              </div>
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Bathrooms
-                </dt>
-                <dd className="text-lg font-semibold">{house?.bathrooms}</dd>
-              </div>
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Room Size
-                </dt>
-                <dd className="text-lg font-semibold">{house?.roomSize}</dd>
-              </div>
-            </div>
-
-            <div className="flex flex-col md:flex-row md:justify-between">
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Rent Per Month
-                </dt>
-                <dd className="text-lg font-semibold">{house?.rentPerMonth}</dd>
-              </div>
-              <div className="flex flex-col ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400">
-                  Phone Number
-                </dt>
-                <dd className="text-lg font-semibold">{house?.phoneNumber}</dd>
-              </div>
-              <div className="flex flex-col pt-3 ">
-                <dt className="mb-1 text-gray-500 md:text-lg dark:text-gray-400 ">
-                  Description
-                </dt>
-                <dd className="text-lg font-semibold">{house?.description}</dd>
-              </div>
-            </div>
-          </dl>
-
-          <div className="flex gap-1 mb-4 justify-center mt-8">
-            <>
-              <button
-                onClick={() => navigate(-1)}
-                className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <form className="max-w-xl mx-auto" onSubmit={handleBookHouse}>
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
               >
-                BACK
-              </button>
-
-              <button
-                onClick={handleBookHouse}
-                className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                Your Name
+              </label>
+              <input
+                type="text"
+                id="email"
+                value={user?.name}
+                disabled
+                className="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@flowbite.com"
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
               >
-                BOOK NOW
-              </button>
-            </>
-          </div>
+                Your email
+              </label>
+              <input
+                type="email"
+                value={user?.email}
+                disabled
+                id="email"
+                className="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@flowbite.com"
+                required
+              />
+            </div>
+
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+              >
+                House Name
+              </label>
+              <input
+                type="text"
+                id="email"
+                value={house?.name}
+                disabled
+                className="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="name@flowbite.com"
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+              >
+                Phone number
+              </label>
+              <input
+                type="number"
+                id="email"
+                name="number"
+                className="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="+880 1234567890"
+                required
+              />
+
+              {error && (
+                <p color="red" className="font-sans text-sm text-red-700">
+                  {error}
+                </p>
+              )}
+            </div>
+
+            <div className="flex gap-1 mb-4 justify-center mt-8">
+              <>
+                <button
+                  onClick={() => navigate(-1)}
+                  className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                >
+                  BACK
+                </button>
+
+                <button
+                  type="submit"
+                  className="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-xs px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  BOOK NOW
+                </button>
+              </>
+            </div>
+          </form>
         </>
       )}
     </div>

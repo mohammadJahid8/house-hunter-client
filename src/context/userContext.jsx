@@ -12,6 +12,7 @@ export default function UserAuthProvider({ children }) {
   const [token, setToken] = useState(null);
 
   const [userRefetch, setUserRefetch] = useState(false);
+  const [refetchHouse, setrefetchHouse] = useState(false);
 
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,29 +35,26 @@ export default function UserAuthProvider({ children }) {
     const getHouse = async () => {
       setIsLoading(true);
       const localToken = localStorage.getItem("houseToken");
-      if (localToken) {
-        console.log("currentPage", currentPage);
 
-        await axios
-          .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house?page=${currentPage}`,
-            {
-              headers: {
-                authorization: `${localToken}`,
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res.data);
-            if (res.status === 200) {
-              setIsLoading(false);
-              setHouses(res.data);
-            }
-          });
-      }
+      await axios
+        .get(
+          `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house?page=${currentPage}`,
+          {
+            headers: {
+              authorization: `${localToken}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          if (res.status === 200) {
+            setIsLoading(false);
+            setHouses(res.data);
+          }
+        });
     };
     getHouse();
-  }, [currentPage]);
+  }, [currentPage, refetchHouse]);
 
   const handlePrevClick = () => {
     window.scrollTo(0, document.getElementById("house").offsetTop - 100);
@@ -249,6 +247,9 @@ export default function UserAuthProvider({ children }) {
         filters,
         isLoadingUser,
         setIsLoadingUser,
+        setIsLoading,
+        refetchHouse,
+        setrefetchHouse,
       }}
     >
       {children}
