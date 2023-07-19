@@ -142,14 +142,16 @@ export default function UserAuthProvider({ children }) {
         return false;
       }
     }
-
-    // Bathrooms filter logic
     if (
       filters.bathrooms &&
-      property.bathrooms !== parseInt(filters.bathrooms)
+      (property.bathrooms > parseInt(filters.bathrooms) ||
+        filters.bathrooms === "5+")
     ) {
-      console.log("inside bathrooms");
-      return false;
+      if (filters.bathrooms === "5+" && property.bathrooms > 5) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // Room size filter logic

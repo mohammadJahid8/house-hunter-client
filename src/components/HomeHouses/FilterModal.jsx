@@ -11,6 +11,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
     useContext(UserAuthContext);
   const [bedroomsFilter, setBedroomsFilter] = useState("");
   const [cityFilter, setCityFilter] = useState("");
+  const [bathroomFilter, setBathroomFilter] = useState("");
 
   const handleBedroomsChange = (event) => {
     setBedroomsFilter(event.target.value);
@@ -34,6 +35,17 @@ export default function FilterModal({ openModal, setOpenModal }) {
       handleFilterChange(event);
     } else {
       setCityFilter(event.target.value);
+      handleFilterChange(event);
+    }
+  };
+  const handleBathroomChange = (event) => {
+    if (cityFilter === event.target.value) {
+      setBathroomFilter("");
+
+      event.target.value = "";
+      handleFilterChange(event);
+    } else {
+      setBathroomFilter(event.target.value);
       handleFilterChange(event);
     }
   };
@@ -268,7 +280,11 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-license"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="2"
+                      name="bathrooms"
+                      checked={bathroomFilter === "2"}
+                      onChange={handleBathroomChange}
+                      onClick={handleBathroomChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
@@ -285,14 +301,18 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-id"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="3"
+                      name="bathrooms"
+                      checked={bathroomFilter === "3"}
+                      onChange={handleBathroomChange}
+                      onClick={handleBathroomChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-id"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      4
+                      3
                     </label>
                   </div>
                 </li>
@@ -302,14 +322,18 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-millitary"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="4"
+                      name="bathrooms"
+                      checked={bathroomFilter === "4"}
+                      onChange={handleBathroomChange}
+                      onClick={handleBathroomChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-millitary"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      6
+                      4
                     </label>
                   </div>
                 </li>
@@ -319,14 +343,18 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-passport"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="5+"
+                      name="bathrooms"
+                      checked={bathroomFilter === "5+"}
+                      onChange={handleBathroomChange}
+                      onClick={handleBathroomChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-passport"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      8+
+                      5+
                     </label>
                   </div>
                 </li>
