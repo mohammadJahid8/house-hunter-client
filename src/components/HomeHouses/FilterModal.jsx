@@ -3,11 +3,19 @@
 import { Button, Modal } from "flowbite-react";
 
 import "rc-slider/assets/index.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserAuthContext } from "../../context/userContext";
 export default function FilterModal({ openModal, setOpenModal }) {
   const props = { openModal, setOpenModal };
-  const { filters, handleFilterChange } = useContext(UserAuthContext);
+  const { filters, handleFilterChange, handleRentRangeChange } =
+    useContext(UserAuthContext);
+  const [bedroomsFilter, setBedroomsFilter] = useState("");
+
+  const handleBedroomsChange = (event) => {
+    console.log(event.target.value);
+    setBedroomsFilter(event.target.value);
+    handleFilterChange(event);
+  };
 
   return (
     <>
@@ -28,9 +36,15 @@ export default function FilterModal({ openModal, setOpenModal }) {
               <input
                 id="large-range"
                 type="range"
-                defaultValue={50}
+                min={0}
+                max={1000000}
+                defaultValue={filters?.rentPerMonth}
+                onChange={handleRentRangeChange}
+                // onChange={(e) => setrangeChange(e.target.value)}
                 className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"
               />
+              {console.log(filters)}
+              <div>From 0$ To {filters?.rentPerMonth}$</div>
             </div>
 
             <div>
@@ -38,7 +52,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
               <input
                 type="text"
                 name="city"
-                value={filters.city}
+                value={filters?.city}
                 onChange={handleFilterChange}
               />
             </div>
@@ -54,14 +68,17 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-license"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="2"
+                      name="bedrooms"
+                      checked={bedroomsFilter === "2"}
+                      onChange={handleBedroomsChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-license"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Driver License{" "}
+                      2{" "}
                     </label>
                   </div>
                 </li>
@@ -71,14 +88,17 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-id"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="4"
+                      name="bedrooms"
+                      checked={bedroomsFilter === "4"}
+                      onChange={handleBedroomsChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-id"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      State ID
+                      4
                     </label>
                   </div>
                 </li>
@@ -88,14 +108,17 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-millitary"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="6"
+                      name="bedrooms"
+                      checked={bedroomsFilter === "6"}
+                      onChange={handleBedroomsChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-millitary"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      US Millitary
+                      6
                     </label>
                   </div>
                 </li>
@@ -105,14 +128,17 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-passport"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="8+"
+                      name="bedrooms"
+                      checked={bedroomsFilter === "8+"}
+                      onChange={handleBedroomsChange}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-passport"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      US Passport
+                      8+
                     </label>
                   </div>
                 </li>
@@ -138,7 +164,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-license"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Driver License{" "}
+                      2{" "}
                     </label>
                   </div>
                 </li>
@@ -155,7 +181,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-id"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      State ID
+                      4
                     </label>
                   </div>
                 </li>
@@ -172,7 +198,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-millitary"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      US Millitary
+                      6
                     </label>
                   </div>
                 </li>
@@ -189,7 +215,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-passport"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      US Passport
+                      8+
                     </label>
                   </div>
                 </li>
@@ -214,7 +240,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-license"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      Driver License{" "}
+                      500 Sq. ft.{" "}
                     </label>
                   </div>
                 </li>
@@ -231,7 +257,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-id"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      State ID
+                      1000 Sq. ft.
                     </label>
                   </div>
                 </li>
@@ -248,7 +274,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-millitary"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      US Millitary
+                      2000 Sq. ft.
                     </label>
                   </div>
                 </li>
@@ -265,7 +291,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       htmlFor="horizontal-list-radio-passport"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      US Passport
+                      3000 Sq. Ft. +
                     </label>
                   </div>
                 </li>
@@ -273,14 +299,31 @@ export default function FilterModal({ openModal, setOpenModal }) {
             </div>
 
             {/*  */}
+
+            <div>
+              <label>Availability:</label>
+              <input
+                type="text"
+                name="availability"
+                value={filters.availability}
+                onChange={handleFilterChange}
+              />
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => props.setOpenModal(undefined)}>
-            I accept
+          <Button
+            color="gray"
+            onClick={() => props.setOpenModal(undefined)}
+            className="bg-red-600 text-white"
+          >
+            Cancel
           </Button>
-          <Button color="gray" onClick={() => props.setOpenModal(undefined)}>
-            Decline
+          <Button
+            onClick={() => props.setOpenModal(undefined)}
+            className="bg-blue-600"
+          >
+            Save
           </Button>
         </Modal.Footer>
       </Modal>

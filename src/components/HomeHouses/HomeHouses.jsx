@@ -15,15 +15,17 @@ const HomeHouses = () => {
     filteredProperties,
   } = useContext(UserAuthContext);
 
+  console.log({ houses, filteredProperties });
+
   return (
     <div className="mt-8" id="house">
-      {houses?.data?.length > 0 ? (
+      <HouseSearch />
+      {filteredProperties?.length > 0 ? (
         <>
           {isLoading ? (
             <p className="text-center">Loading houses..</p>
           ) : (
             <>
-              <HouseSearch />
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
                 {filteredProperties?.map((property, index) => (
                   <div

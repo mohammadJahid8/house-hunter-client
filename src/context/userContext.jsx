@@ -24,7 +24,7 @@ export default function UserAuthProvider({ children }) {
     bathrooms: "",
     roomSize: "",
     availability: "",
-    rentPerMonth: [0, 10000], // Default rent range from 0 to 10000
+    rentPerMonth: [0, 1000000], // Default rent range from 0 to 10000
   });
 
   useEffect(() => {
@@ -68,6 +68,7 @@ export default function UserAuthProvider({ children }) {
   };
 
   const handleSearchChange = (event) => {
+    event.preventDefault();
     setSearchQuery(event.target.value);
   };
 
@@ -79,10 +80,12 @@ export default function UserAuthProvider({ children }) {
     }));
   };
 
-  const handleRentRangeChange = (event, newValue) => {
+  const handleRentRangeChange = (event) => {
+    // console.log(event.target.value, newValue);
+
     setFilters((prevFilters) => ({
       ...prevFilters,
-      rentPerMonth: newValue,
+      rentPerMonth: event.target.value,
     }));
   };
 
@@ -91,6 +94,8 @@ export default function UserAuthProvider({ children }) {
 
     // Search filter logic
     if (searchQuery) {
+      console.log("inside search");
+
       const normalizedSearchQuery = searchQuery.toLowerCase();
       if (
         name.toLowerCase().includes(normalizedSearchQuery) ||
@@ -105,11 +110,13 @@ export default function UserAuthProvider({ children }) {
 
     // City filter logic
     if (filters.city && city !== filters.city) {
+      console.log("inside city");
       return false;
     }
 
     // Bedrooms filter logic
     if (filters.bedrooms && property.bedrooms !== parseInt(filters.bedrooms)) {
+      console.log("inside bedrooms");
       return false;
     }
 
@@ -118,11 +125,13 @@ export default function UserAuthProvider({ children }) {
       filters.bathrooms &&
       property.bathrooms !== parseInt(filters.bathrooms)
     ) {
+      console.log("inside bathrooms");
       return false;
     }
 
     // Room size filter logic
     if (filters.roomSize && property.roomSize !== parseInt(filters.roomSize)) {
+      console.log("inside roomSize");
       return false;
     }
 
@@ -131,17 +140,21 @@ export default function UserAuthProvider({ children }) {
       filters.availability &&
       property.availabilityDate !== filters.availability
     ) {
+      console.log("inside availabilityDate");
       return false;
     }
 
     // Rent per month filter logic
-    const [minRent, maxRent] = filters.rentPerMonth;
-    if (property.rentPerMonth < minRent || property.rentPerMonth > maxRent) {
+
+    if (property.rentPerMonth > filters.rentPerMonth) {
+      console.log("inside rentPerMonth");
       return false;
     }
 
     return true; // Property matches all filters
   });
+
+  console.log(filters?.rentPerMonth);
 
   useEffect(() => {
     const getUser = async () => {
@@ -199,6 +212,9 @@ export default function UserAuthProvider({ children }) {
         handleFilterChange,
         handleRentRangeChange,
         filteredProperties,
+        houses,
+        setHouses,
+        filters,
       }}
     >
       {children}
