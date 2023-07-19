@@ -39,6 +39,7 @@ const BookHouse = () => {
     const data = {
       house: house?._id,
       renter: user?.email,
+      renterId: user?._id,
       owner: user?.email,
     };
 
