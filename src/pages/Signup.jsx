@@ -8,41 +8,63 @@ import {
   Select,
   Option,
 } from "@material-tailwind/react";
+import axios from "axios";
 import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   const [role, setRole] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignup = async (event) => {
     window.scrollTo(0, 0);
     event.preventDefault();
     setError("");
+    setIsLoading(true);
 
-    console.log(event.target.role.value);
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
 
+    console.log(role);
+
     data.role = role;
+
+    console.log(data);
 
     const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
 
-    if (!phoneNumberRegex.test(data.number)) {
+    if (!phoneNumberRegex.test(data.phoneNumber)) {
       setError("Please enter a Bangladeshi phone number!");
+      setIsLoading(false);
       return;
     }
 
-    if (data.role === "") {
+    if (!role || role === "" || !data.role) {
       setError("Please select a role!");
+      setIsLoading(false);
       return;
     }
 
-    // if (response?.success === true) {
-    //   navigate("/signin");
-    // }
+    await axios
+      .post("http://localhost:5000/api/v1/auth/signup", data)
+      .then((res) => {
+        console.log(res);
+
+        if (res.data.success === true) {
+          toast.success("Registration successful!");
+          setIsLoading(false);
+          navigate("/signin");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        toast.error("Something went wrong! Please try again.");
+      });
   };
   const handleSelectChange = (event) => {
     setRole(event);
@@ -71,15 +93,15 @@ export default function Signup() {
               onChange={handleSelectChange}
               value={role}
             >
-              <Option value="House Owner">House Owner</Option>
-              <Option value="House Renter">House Renter</Option>
+              <Option value="owner">House Owner</Option>
+              <Option value="renter">House Renter</Option>
             </Select>
 
             <Input
               size="lg"
               label="Phone number"
               required
-              name="number"
+              name="phoneNumber"
               type="number"
             />
 
@@ -103,10 +125,9 @@ export default function Signup() {
             className="mt-6"
             fullWidth
             type="submit"
-            // disabled={isLoading ? true : false}
+            disabled={isLoading ? true : false}
           >
-            {/* {isLoading ? "Registering..." : "Register"} */}
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Already have an account?{" "}
@@ -119,6 +140,7 @@ export default function Signup() {
           </Typography>
         </form>
       </Card>
+      <Toaster />
     </div>
   );
 }

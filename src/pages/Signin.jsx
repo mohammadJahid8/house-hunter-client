@@ -1,16 +1,42 @@
 /* eslint-disable no-unused-vars */
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Toaster, toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signin() {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignin = async (event) => {
     window.scrollTo(0, 0);
     event.preventDefault();
-    // const formData = new FormData(event.currentTarget);
-    // const data = Object.fromEntries(formData);
+
+    setError("");
+    setIsLoading(true);
+
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData);
+
+    await axios
+      .post("http://localhost:5000/api/v1/auth/login", data)
+      .then((res) => {
+        console.log(res.data.data.accessToken);
+
+        if (res.data.success === true) {
+          toast.success("Signin successful!");
+          localStorage.setItem("houseToken", res.data.data.accessToken);
+          setIsLoading(false);
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        toast.error("Something went wrong! Please try again.");
+      });
   };
 
   return (
@@ -49,8 +75,7 @@ export default function Signin() {
             fullWidth
             // disabled={isLoading ? true : false}
           >
-            {/* {isLoading ? "SIGN IN..." : "SIGN IN"} */}
-            SIGN IN
+            {isLoading ? "SIGN IN..." : "SIGN IN"}
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">
             Dont have an account?{" "}
@@ -63,6 +88,8 @@ export default function Signin() {
           </Typography>
         </form>
       </Card>
+
+      <Toaster />
     </div>
   );
 }
