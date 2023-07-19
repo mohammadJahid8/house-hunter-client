@@ -65,25 +65,25 @@ const RenterBookings = () => {
 
   return (
     <div>
-      <h1>Booked Houses</h1>
+      <h1 className="text-white text-xl">Booked Houses</h1>
 
       {houses?.length === 2 ? (
-        <p className="text-red-700 text-sm">
+        <p className="text-red-600 mb-2 text-sm">
           Note: You have already booked two houses. Remove one house for new
           booking.
         </p>
       ) : houses?.length === 1 ? (
-        <p className="text-red-700 text-sm">
+        <p className="text-red-600 mb-2 text-sm">
           Note: You can book one more house.
         </p>
       ) : (
-        <p className="text-red-700 text-sm">
+        <p className="text-red-600 mb-2 text-sm">
           Note: You can book two house only.
         </p>
       )}
       <div className="relative overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-sm text-left text-white">
+          <thead className="text-xs text-white uppercase bg-[#262626] ">
             <tr>
               <th scope="col" className="px-6 py-3">
                 picture
@@ -120,7 +120,7 @@ const RenterBookings = () => {
           <tbody>
             {houses?.map((house, index) => (
               <tr
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                className=" border-b dark:bg-gray-800 dark:border-gray-700"
                 key={index}
               >
                 <th
@@ -142,7 +142,7 @@ const RenterBookings = () => {
                 <td className="px-6 py-4">{house?.house?.availabilityDate}</td>
                 <td className="px-6 py-4">${house?.house?.rentPerMonth}</td>
                 <td className="px-6 py-4">{house?.house?.phoneNumber}</td>
-                <td className="px-6 py-4 flex gap-3">
+                <td className="px-6 py-4">
                   <button
                     onClick={() => handleDeleteHouse(house._id)}
                     className="font-medium text-red-600 hover:underline dark:text-cyan-500"
