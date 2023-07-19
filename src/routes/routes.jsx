@@ -14,6 +14,7 @@ import RenterBookings from "../pages/RenterDashboard/RenterBookings";
 import BookHouse from "../pages/BookHouse";
 import Addhouse from "../pages/OwnerDashboard/Addhouse";
 import EditHouse from "../pages/OwnerDashboard/EditHouse";
+import PrivateRoutes from "./PrivateRoute";
 
 const routes = createBrowserRouter([
   {
@@ -45,7 +46,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/owner-dashboard",
-    element: <OwnerDashboard />,
+    element: (
+      <PrivateRoutes>
+        <OwnerDashboard />
+      </PrivateRoutes>
+    ),
     children: [
       {
         path: "/owner-dashboard",
@@ -67,7 +72,11 @@ const routes = createBrowserRouter([
   },
   {
     path: "/renter-dashboard",
-    element: <RenterDashboard />,
+    element: (
+      <PrivateRoutes>
+        <RenterDashboard />
+      </PrivateRoutes>
+    ),
     children: [
       {
         path: "/renter-dashboard",

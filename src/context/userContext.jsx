@@ -15,6 +15,7 @@ export default function UserAuthProvider({ children }) {
 
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingUser, setIsLoadingUser] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -176,6 +177,7 @@ export default function UserAuthProvider({ children }) {
     const getUser = async () => {
       const localToken = localStorage.getItem("houseToken");
       if (localToken) {
+        setIsLoadingUser(true);
         await axios
           .get(
             "https://house-hunter-server-bay.vercel.app/api/v1/users/my-profile",
@@ -188,6 +190,7 @@ export default function UserAuthProvider({ children }) {
           .then((res) => {
             if (res.status === 200) {
               setUser(res.data.data);
+              setIsLoadingUser(false);
             }
           })
           .finally(() => {});
@@ -234,6 +237,8 @@ export default function UserAuthProvider({ children }) {
         houses,
         setHouses,
         filters,
+        isLoadingUser,
+        setIsLoadingUser,
       }}
     >
       {children}
