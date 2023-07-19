@@ -25,7 +25,7 @@ export default function UserAuthProvider({ children }) {
     bathrooms: "",
     roomSize: "",
     availability: "",
-    rentPerMonth: [0, 1000000], // Default rent range from 0 to 10000
+    rentPerMonth: "", // Default rent range from 0 to 10000
   });
 
   console.log("filters", filters);
@@ -39,7 +39,7 @@ export default function UserAuthProvider({ children }) {
 
         await axios
           .get(
-            `https://house-hunter-server-bay.vercel.app/api/v1/house?page=${currentPage}`,
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house?page=${currentPage}`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -79,14 +79,18 @@ export default function UserAuthProvider({ children }) {
   };
 
   const handleFilterChange = (event) => {
-    const { name, value } = event.target;
+    if (event?.target) {
+      const { name, value } = event.target;
 
-    console.log(name, value);
+      console.log(name, value);
 
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [name]: value,
+      }));
+    } else {
+      setFilters(event);
+    }
   };
 
   const handleRentRangeChange = (event) => {
@@ -126,11 +130,6 @@ export default function UserAuthProvider({ children }) {
       return false;
     }
 
-    console.log(
-      "filters.bedrooms",
-      property.bedrooms > parseInt(filters.bedrooms),
-      filters.bedrooms === "8+" && property.bedrooms < 8
-    );
     if (
       filters.bedrooms &&
       (property.bedrooms > parseInt(filters.bedrooms) ||
@@ -153,25 +152,28 @@ export default function UserAuthProvider({ children }) {
         return false;
       }
     }
-
-    // Room size filter logic
-    if (filters.roomSize && property.roomSize !== parseInt(filters.roomSize)) {
-      console.log("inside roomSize");
-      return false;
+    if (
+      filters.roomSize &&
+      (property.roomSize > parseInt(filters.roomSize) ||
+        filters.roomSize === "3000+")
+    ) {
+      if (filters.roomSize === "3000+" && property.roomSize > 3000) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // Availability filter logic
-    if (
-      filters.availability &&
-      property.availabilityDate !== filters.availability
-    ) {
-      console.log("inside availabilityDate");
-      return false;
-    }
+    if (filters.availability) {
+      const userInputDate = new Date(filters.availability);
 
+      const availableTillDate = new Date(property.availabilityDate);
+      return availableTillDate >= userInputDate;
+    }
     // Rent per month filter logic
 
-    if (property.rentPerMonth > filters.rentPerMonth) {
+    if (property.rentPerMonth > parseInt(filters.rentPerMonth)) {
       console.log("inside rentPerMonth");
       return false;
     }
@@ -188,7 +190,7 @@ export default function UserAuthProvider({ children }) {
         setIsLoadingUser(true);
         await axios
           .get(
-            "https://house-hunter-server-bay.vercel.app/api/v1/users/my-profile",
+            "https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/users/my-profile",
             {
               headers: {
                 authorization: `${localToken}`,

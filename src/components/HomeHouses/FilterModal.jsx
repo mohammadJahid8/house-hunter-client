@@ -12,6 +12,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
   const [bedroomsFilter, setBedroomsFilter] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [bathroomFilter, setBathroomFilter] = useState("");
+  const [roomSizeFilter, setRoomSizeFilter] = useState("");
 
   const handleBedroomsChange = (event) => {
     setBedroomsFilter(event.target.value);
@@ -49,6 +50,35 @@ export default function FilterModal({ openModal, setOpenModal }) {
       handleFilterChange(event);
     }
   };
+  const handleRoomSize = (event) => {
+    if (roomSizeFilter === event.target.value) {
+      setRoomSizeFilter("");
+
+      event.target.value = "";
+      handleFilterChange(event);
+    } else {
+      setRoomSizeFilter(event.target.value);
+      handleFilterChange(event);
+    }
+  };
+
+  const handleCancelFilters = () => {
+    setBedroomsFilter("");
+    setCityFilter("");
+    setBathroomFilter("");
+    setRoomSizeFilter("");
+    handleFilterChange({
+      city: "",
+      bedrooms: "",
+      bathrooms: "",
+      roomSize: "",
+      availability: "",
+      rentPerMonth: "",
+    });
+    // show all products
+
+    props.setOpenModal(undefined);
+  };
 
   return (
     <>
@@ -70,7 +100,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
                 id="large-range"
                 type="range"
                 min={0}
-                max={1000000}
+                max={100000}
                 defaultValue={filters?.rentPerMonth}
                 onChange={handleRentRangeChange}
                 // onChange={(e) => setrangeChange(e.target.value)}
@@ -360,7 +390,6 @@ export default function FilterModal({ openModal, setOpenModal }) {
                 </li>
               </ul>
             </div>
-            {/*  */}
             <div>
               <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
                 Room size
@@ -372,14 +401,18 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-license"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="500"
+                      name="roomSize"
+                      checked={roomSizeFilter === "500"}
+                      onChange={handleRoomSize}
+                      onClick={handleRoomSize}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
                       htmlFor="horizontal-list-radio-license"
                       className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     >
-                      500 Sq. ft.{" "}
+                      500 Sq. ft.
                     </label>
                   </div>
                 </li>
@@ -389,7 +422,11 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-id"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="1000"
+                      name="roomSize"
+                      checked={roomSizeFilter === "1000"}
+                      onChange={handleRoomSize}
+                      onClick={handleRoomSize}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
@@ -406,7 +443,11 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-millitary"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="2000"
+                      name="roomSize"
+                      checked={roomSizeFilter === "2000"}
+                      onChange={handleRoomSize}
+                      onClick={handleRoomSize}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
@@ -423,7 +464,11 @@ export default function FilterModal({ openModal, setOpenModal }) {
                       id="horizontal-list-radio-passport"
                       type="radio"
                       defaultValue
-                      name="list-radio"
+                      value="3000+"
+                      name="roomSize"
+                      checked={roomSizeFilter === "3000+"}
+                      onChange={handleRoomSize}
+                      onClick={handleRoomSize}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
                     <label
@@ -436,13 +481,16 @@ export default function FilterModal({ openModal, setOpenModal }) {
                 </li>
               </ul>
             </div>
+            {/*  */}
 
             {/*  */}
 
             <div>
-              <label>Availability:</label>
+              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
+                Available till:
+              </h3>
               <input
-                type="text"
+                type="date"
                 name="availability"
                 value={filters.availability}
                 onChange={handleFilterChange}
@@ -453,7 +501,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
         <Modal.Footer>
           <Button
             color="gray"
-            onClick={() => props.setOpenModal(undefined)}
+            onClick={handleCancelFilters}
             className="bg-red-600 text-white"
           >
             Cancel

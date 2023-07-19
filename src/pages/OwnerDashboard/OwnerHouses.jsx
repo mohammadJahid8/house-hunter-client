@@ -16,7 +16,7 @@ const OwnerHouses = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-bay.vercel.app/api/v1/house/get/my-houses`,
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/get/my-houses`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -36,11 +36,14 @@ const OwnerHouses = () => {
 
   const handleDeleteHouse = async (id) => {
     await axios
-      .delete(`https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`, {
-        headers: {
-          authorization: `${localStorage.getItem("houseToken")}`,
-        },
-      })
+      .delete(
+        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
+        {
+          headers: {
+            authorization: `${localStorage.getItem("houseToken")}`,
+          },
+        }
+      )
       .then((res) => {
         console.log(res);
 

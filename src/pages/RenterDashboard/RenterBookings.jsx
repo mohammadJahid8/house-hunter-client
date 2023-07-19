@@ -14,11 +14,14 @@ const RenterBookings = () => {
       const localToken = localStorage.getItem("houseToken");
       if (localToken) {
         await axios
-          .get(`https://house-hunter-server-bay.vercel.app/api/v1/bookings`, {
-            headers: {
-              authorization: `${localToken}`,
-            },
-          })
+          .get(
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
+            {
+              headers: {
+                authorization: `${localToken}`,
+              },
+            }
+          )
           .then((res) => {
             console.log(res.data.data);
             if (res.status === 200) {
@@ -33,7 +36,7 @@ const RenterBookings = () => {
   const handleDeleteHouse = async (id) => {
     await axios
       .delete(
-        `https://house-hunter-server-bay.vercel.app/api/v1/bookings/${id}`,
+        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings/${id}`,
         {
           headers: {
             authorization: `${localStorage.getItem("houseToken")}`,

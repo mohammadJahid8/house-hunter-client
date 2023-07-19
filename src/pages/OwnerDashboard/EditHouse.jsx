@@ -18,7 +18,7 @@ const EditHouse = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -59,7 +59,7 @@ const EditHouse = () => {
 
     await axios
       .patch(
-        `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
+        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
         data,
         {
           headers: {

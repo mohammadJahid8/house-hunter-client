@@ -19,7 +19,7 @@ const BookHouse = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -48,7 +48,7 @@ const BookHouse = () => {
 
     await axios
       .post(
-        `https://house-hunter-server-bay.vercel.app/api/v1/bookings`,
+        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
         data,
         {
           headers: {
