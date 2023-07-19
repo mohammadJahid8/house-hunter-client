@@ -29,11 +29,7 @@ export default function Signup() {
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
 
-    console.log(role);
-
     data.role = role;
-
-    console.log(data);
 
     const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
 

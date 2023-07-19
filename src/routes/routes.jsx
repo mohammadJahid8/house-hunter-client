@@ -12,6 +12,8 @@ import Bookings from "../pages/OwnerDashboard/Bookings";
 import RenterDashboard from "../pages/RenterDashboard/RenterDashboard";
 import RenterBookings from "../pages/RenterDashboard/RenterBookings";
 import BookHouse from "../pages/BookHouse";
+import Addhouse from "../pages/OwnerDashboard/Addhouse";
+import EditHouse from "../pages/OwnerDashboard/EditHouse";
 
 const routes = createBrowserRouter([
   {
@@ -52,6 +54,14 @@ const routes = createBrowserRouter([
       {
         path: "bookings",
         element: <Bookings />,
+      },
+      {
+        path: "addhouse",
+        element: <Addhouse />,
+      },
+      {
+        path: "edit-house/:id",
+        element: <EditHouse />,
       },
     ],
   },

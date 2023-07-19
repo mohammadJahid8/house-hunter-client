@@ -1,14 +1,18 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import swal from "sweetalert";
+import { UserAuthContext } from "../context/userContext";
 
 const BookHouse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [house, setHouse] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const { user } = useContext(UserAuthContext);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getSingleHouse = async () => {
       setIsLoading(true);
       const localToken = localStorage.getItem("houseToken");
@@ -30,6 +34,39 @@ const BookHouse = () => {
     };
     getSingleHouse();
   }, [id]);
+
+  const handleBookHouse = async () => {
+    const data = {
+      house: house?._id,
+      renter: user?.email,
+      owner: user?.email,
+    };
+
+    await axios
+      .post(`http://localhost:5000/api/v1/bookings`, data, {
+        headers: {
+          authorization: `${localStorage.getItem("houseToken")}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+
+        if (res.data.success === true) {
+          swal({
+            title: "House booked successfully!",
+            icon: "success",
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        swal({
+          title: "Something went wrong!",
+          icon: "error",
+        });
+      });
+  };
+
   return (
     <div className="px-8 mt-28">
       <h4 className="text-center font-extrabold tracking-tight text-3xl mb-4 ">
@@ -122,7 +159,10 @@ const BookHouse = () => {
                 BACK
               </button>
 
-              <button className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+              <button
+                onClick={handleBookHouse}
+                className="text-white  bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-sm text-xs px-3 py-1.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+              >
                 BOOK NOW
               </button>
             </>
