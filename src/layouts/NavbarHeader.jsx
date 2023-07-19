@@ -28,18 +28,20 @@ export default function NavbarHead() {
           Home
         </Typography>
       </Link>
-      <Link
-        to={user?.role === "owner" ? "owner-dashboard" : "renter-dashboard"}
-      >
-        <Typography
-          as="li"
-          variant="small"
-          color="blue-gray"
-          className="p-1 font-normal"
+      {user?.email && (
+        <Link
+          to={user?.role === "owner" ? "owner-dashboard" : "renter-dashboard"}
         >
-          Dashboard
-        </Typography>
-      </Link>
+          <Typography
+            as="li"
+            variant="small"
+            color="blue-gray"
+            className="p-1 font-normal"
+          >
+            Dashboard
+          </Typography>
+        </Link>
+      )}
     </ul>
   );
 
