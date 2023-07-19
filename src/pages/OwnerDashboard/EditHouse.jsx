@@ -18,7 +18,7 @@ const EditHouse = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
+            `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -26,7 +26,6 @@ const EditHouse = () => {
             }
           )
           .then((res) => {
-            console.log(res.data);
             if (res.status === 200) {
               setHouse(res.data.data);
             }
@@ -47,8 +46,6 @@ const EditHouse = () => {
     data.owner = user?.email;
     data.label = "for rent";
 
-    console.log(data);
-
     const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
 
     if (!phoneNumberRegex.test(data.phoneNumber)) {
@@ -59,7 +56,7 @@ const EditHouse = () => {
 
     await axios
       .patch(
-        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
+        `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
         data,
         {
           headers: {
@@ -68,8 +65,6 @@ const EditHouse = () => {
         }
       )
       .then((res) => {
-        console.log(res);
-
         if (res.data.success === true) {
           swal({
             title: "House Edited successfully!",
@@ -91,7 +86,7 @@ const EditHouse = () => {
 
   return (
     <div>
-      <h1>Edit house</h1>
+      <h1 className="text-white text-xl mb-4">Edit house</h1>
 
       <form onSubmit={handleEditHouse}>
         <div className="relative z-0 w-full mb-6 group">
@@ -100,7 +95,7 @@ const EditHouse = () => {
             type="text"
             name="picture"
             id="floating_email"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -117,7 +112,7 @@ const EditHouse = () => {
             type="text"
             name="name"
             id="name"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -134,7 +129,7 @@ const EditHouse = () => {
             type="text"
             name="address"
             id="address"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -151,7 +146,7 @@ const EditHouse = () => {
             type="text"
             name="city"
             id="city"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -169,7 +164,7 @@ const EditHouse = () => {
               type="text"
               name="bedrooms"
               id="bedrooms"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -186,7 +181,7 @@ const EditHouse = () => {
               type="text"
               name="bathrooms"
               id="bathrooms"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -205,7 +200,7 @@ const EditHouse = () => {
               type="text"
               name="roomSize"
               id="roomSize"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -222,7 +217,7 @@ const EditHouse = () => {
               type="text"
               name="rentPerMonth"
               id="rentPerMonth"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -241,7 +236,7 @@ const EditHouse = () => {
               type="number"
               name="phoneNumber"
               id="phoneNumber"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -255,10 +250,10 @@ const EditHouse = () => {
           <div className="relative z-0 w-full mb-6 group">
             <input
               defaultValue={house?.availabilityDate}
-              type="text"
+              type="date"
               name="availabilityDate"
               id="availabilityDate"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -266,7 +261,7 @@ const EditHouse = () => {
               htmlFor="availabilityDate"
               className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
-              Availability date
+              Availability till
             </label>
           </div>
         </div>
@@ -277,7 +272,7 @@ const EditHouse = () => {
             type="text"
             name="description"
             id="description"
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder=" "
             required
           />
@@ -299,7 +294,7 @@ const EditHouse = () => {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Submit
+          Update
         </button>
       </form>
     </div>

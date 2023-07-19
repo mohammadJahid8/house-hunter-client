@@ -5,6 +5,7 @@ import { Button, Modal } from "flowbite-react";
 import "rc-slider/assets/index.css";
 import { useContext, useState } from "react";
 import { UserAuthContext } from "../../context/userContext";
+import { toast } from "react-hot-toast";
 export default function FilterModal({ openModal, setOpenModal }) {
   const props = { openModal, setOpenModal };
   const { filters, handleFilterChange, handleRentRangeChange } =
@@ -15,10 +16,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
   const [roomSizeFilter, setRoomSizeFilter] = useState("");
 
   const handleBedroomsChange = (event) => {
-    setBedroomsFilter(event.target.value);
-    handleFilterChange(event);
-
-    if (cityFilter === event.target.value) {
+    if (bedroomsFilter === event.target.value) {
       setBedroomsFilter("");
 
       event.target.value = "";
@@ -40,7 +38,7 @@ export default function FilterModal({ openModal, setOpenModal }) {
     }
   };
   const handleBathroomChange = (event) => {
-    if (cityFilter === event.target.value) {
+    if (bathroomFilter === event.target.value) {
       setBathroomFilter("");
 
       event.target.value = "";
@@ -80,439 +78,450 @@ export default function FilterModal({ openModal, setOpenModal }) {
     props.setOpenModal(undefined);
   };
 
+  const handleSavefilter = () => {
+    // show all products
+    toast.success("Filter applied");
+    props.setOpenModal(undefined);
+  };
+
   return (
     <>
       <Modal
         show={props.openModal === "default"}
         onClose={() => props.setOpenModal(undefined)}
+        className=""
       >
-        <Modal.Header>Filter Houses</Modal.Header>
-        <Modal.Body>
-          <div className="space-y-6">
-            <div>
-              <label
-                htmlFor="large-range"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Rent per month
-              </label>
-              <input
-                id="large-range"
-                type="range"
-                min={0}
-                max={100000}
-                defaultValue={filters?.rentPerMonth}
-                onChange={handleRentRangeChange}
-                // onChange={(e) => setrangeChange(e.target.value)}
-                className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"
-              />
-              {console.log(filters)}
-              <div>From 0$ To {filters?.rentPerMonth}$</div>
+        <div className="hello bg-[#2c2b2b] text-white">
+          <Modal.Header className="text-white">
+            <p className="text-white">Filter Houses</p>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="space-y-6">
+              <div>
+                <label
+                  htmlFor="large-range"
+                  className="block mb-2 text-sm font-medium text-gray-200 dark:text-white"
+                >
+                  Rent per month
+                </label>
+                <input
+                  id="large-range"
+                  type="range"
+                  min={0}
+                  max={100000}
+                  defaultValue={filters?.rentPerMonth}
+                  onChange={handleRentRangeChange}
+                  // onChange={(e) => setrangeChange(e.target.value)}
+                  className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"
+                />
+
+                <div className="text-gray-200 text-dm">
+                  From 0 $ To {filters?.rentPerMonth} $
+                </div>
+              </div>
+
+              {/* city */}
+
+              <div>
+                <h3 className="mb-4 font-semibold text-gray-200 dark:text-white">
+                  Top Cities
+                </h3>
+                <ul className="items-center w-full text-sm font-medium text-gray-200 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-license"
+                        type="radio"
+                        defaultValue
+                        value="Chittagong"
+                        name="city"
+                        checked={cityFilter === "Chittagong"}
+                        onChange={handlecityChange}
+                        onClick={handlecityChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-license"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Chittagong{" "}
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-id"
+                        type="radio"
+                        defaultValue
+                        value="Dhaka"
+                        name="city"
+                        checked={cityFilter === "Dhaka"}
+                        onChange={handlecityChange}
+                        onClick={handlecityChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-id"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Dhaka
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-millitary"
+                        type="radio"
+                        defaultValue
+                        value="Sylhet"
+                        name="city"
+                        checked={cityFilter === "Sylhet"}
+                        onChange={handlecityChange}
+                        onClick={handlecityChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-millitary"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Sylhet
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-passport"
+                        type="radio"
+                        defaultValue
+                        value="Rajshahi"
+                        name="city"
+                        checked={cityFilter === "Rajshahi"}
+                        onChange={handlecityChange}
+                        onClick={handlecityChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-passport"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        Rajshahi
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/* city */}
+
+              <div>
+                <h3 className="mb-4 font-semibold text-gray-200 dark:text-white">
+                  Bedrooms
+                </h3>
+                <ul className="items-center w-full text-sm font-medium text-gray-200 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-license"
+                        type="radio"
+                        defaultValue
+                        value="2"
+                        name="bedrooms"
+                        checked={bedroomsFilter === "2"}
+                        onChange={handleBedroomsChange}
+                        onClick={handleBedroomsChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-license"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        2{" "}
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-id"
+                        type="radio"
+                        defaultValue
+                        value="4"
+                        name="bedrooms"
+                        checked={bedroomsFilter === "4"}
+                        onChange={handleBedroomsChange}
+                        onClick={handleBedroomsChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-id"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        4
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-millitary"
+                        type="radio"
+                        defaultValue
+                        value="6"
+                        name="bedrooms"
+                        checked={bedroomsFilter === "6"}
+                        onChange={handleBedroomsChange}
+                        onClick={handleBedroomsChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-millitary"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        6
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="horizontal-list-radio-passport"
+                        type="radio"
+                        defaultValue
+                        value="8+"
+                        name="bedrooms"
+                        checked={bedroomsFilter === "8+"}
+                        onChange={handleBedroomsChange}
+                        onClick={handleBedroomsChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="horizontal-list-radio-passport"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        8+
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+
+              {/*  */}
+              <div>
+                <h3 className="mb-4 font-semibold text-gray-200 dark:text-white">
+                  Bathrooms
+                </h3>
+                <ul className="items-center w-full text-sm font-medium text-gray-200 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="bathroom1"
+                        type="radio"
+                        defaultValue
+                        value="2"
+                        name="bathrooms"
+                        checked={bathroomFilter === "2"}
+                        onChange={handleBathroomChange}
+                        onClick={handleBathroomChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="bathroom1"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        2{" "}
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="bathroom2"
+                        type="radio"
+                        defaultValue
+                        value="3"
+                        name="bathrooms"
+                        checked={bathroomFilter === "3"}
+                        onChange={handleBathroomChange}
+                        onClick={handleBathroomChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="bathroom2"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        3
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="bathroom3"
+                        type="radio"
+                        defaultValue
+                        value="4"
+                        name="bathrooms"
+                        checked={bathroomFilter === "4"}
+                        onChange={handleBathroomChange}
+                        onClick={handleBathroomChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="bathroom3"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        4
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="bathroom4"
+                        type="radio"
+                        defaultValue
+                        value="5+"
+                        name="bathrooms"
+                        checked={bathroomFilter === "5+"}
+                        onChange={handleBathroomChange}
+                        onClick={handleBathroomChange}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="bathroom4"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        5+
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="mb-4 font-semibold text-gray-200 dark:text-white">
+                  Room size
+                </h3>
+                <ul className="items-center w-full text-sm font-medium text-gray-200 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="room1"
+                        type="radio"
+                        defaultValue
+                        value="500"
+                        name="roomSize"
+                        checked={roomSizeFilter === "500"}
+                        onChange={handleRoomSize}
+                        onClick={handleRoomSize}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="room1"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        500 Sq. ft.
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="room2"
+                        type="radio"
+                        defaultValue
+                        value="1000"
+                        name="roomSize"
+                        checked={roomSizeFilter === "1000"}
+                        onChange={handleRoomSize}
+                        onClick={handleRoomSize}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="room2"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        1000 Sq. ft.
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="room3"
+                        type="radio"
+                        defaultValue
+                        value="2000"
+                        name="roomSize"
+                        checked={roomSizeFilter === "2000"}
+                        onChange={handleRoomSize}
+                        onClick={handleRoomSize}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="room3"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        2000 Sq. ft.
+                      </label>
+                    </div>
+                  </li>
+                  <li className="w-full dark:border-gray-600">
+                    <div className="flex items-center pl-3">
+                      <input
+                        id="room4"
+                        type="radio"
+                        defaultValue
+                        value="3000+"
+                        name="roomSize"
+                        checked={roomSizeFilter === "3000+"}
+                        onChange={handleRoomSize}
+                        onClick={handleRoomSize}
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      />
+                      <label
+                        htmlFor="room4"
+                        className="w-full py-3 ml-2 text-sm font-medium text-gray-700 dark:text-gray-300"
+                      >
+                        3000 Sq. Ft. +
+                      </label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              {/*  */}
+
+              {/*  */}
+
+              <div>
+                <h3 className="mb-4 font-semibold text-gray-200 dark:text-white">
+                  Available till:
+                </h3>
+                <input
+                  type="date"
+                  name="availability"
+                  value={filters.availability}
+                  onChange={handleFilterChange}
+                  className="text-gray-600"
+                />
+              </div>
             </div>
-
-            {/* city */}
-
-            <div>
-              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-                Top Cities
-              </h3>
-              <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-license"
-                      type="radio"
-                      defaultValue
-                      value="Chittagong"
-                      name="city"
-                      checked={cityFilter === "Chittagong"}
-                      onChange={handlecityChange}
-                      onClick={handlecityChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-license"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      Chittagong{" "}
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-id"
-                      type="radio"
-                      defaultValue
-                      value="Dhaka"
-                      name="city"
-                      checked={cityFilter === "Dhaka"}
-                      onChange={handlecityChange}
-                      onClick={handlecityChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-id"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      Dhaka
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-millitary"
-                      type="radio"
-                      defaultValue
-                      value="Sylhet"
-                      name="city"
-                      checked={cityFilter === "Sylhet"}
-                      onChange={handlecityChange}
-                      onClick={handlecityChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-millitary"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      Sylhet
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-passport"
-                      type="radio"
-                      defaultValue
-                      value="Rajshahi"
-                      name="city"
-                      checked={cityFilter === "Rajshahi"}
-                      onChange={handlecityChange}
-                      onClick={handlecityChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-passport"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      Rajshahi
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            {/* city */}
-
-            <div>
-              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-                Bedrooms
-              </h3>
-              <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-license"
-                      type="radio"
-                      defaultValue
-                      value="2"
-                      name="bedrooms"
-                      checked={bedroomsFilter === "2"}
-                      onChange={handleBedroomsChange}
-                      onClick={handleBedroomsChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-license"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      2{" "}
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-id"
-                      type="radio"
-                      defaultValue
-                      value="4"
-                      name="bedrooms"
-                      checked={bedroomsFilter === "4"}
-                      onChange={handleBedroomsChange}
-                      onClick={handleBedroomsChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-id"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      4
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-millitary"
-                      type="radio"
-                      defaultValue
-                      value="6"
-                      name="bedrooms"
-                      checked={bedroomsFilter === "6"}
-                      onChange={handleBedroomsChange}
-                      onClick={handleBedroomsChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-millitary"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      6
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-passport"
-                      type="radio"
-                      defaultValue
-                      value="8+"
-                      name="bedrooms"
-                      checked={bedroomsFilter === "8+"}
-                      onChange={handleBedroomsChange}
-                      onClick={handleBedroomsChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-passport"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      8+
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            {/*  */}
-            <div>
-              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-                Bathrooms
-              </h3>
-              <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-license"
-                      type="radio"
-                      defaultValue
-                      value="2"
-                      name="bathrooms"
-                      checked={bathroomFilter === "2"}
-                      onChange={handleBathroomChange}
-                      onClick={handleBathroomChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-license"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      2{" "}
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-id"
-                      type="radio"
-                      defaultValue
-                      value="3"
-                      name="bathrooms"
-                      checked={bathroomFilter === "3"}
-                      onChange={handleBathroomChange}
-                      onClick={handleBathroomChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-id"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      3
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-millitary"
-                      type="radio"
-                      defaultValue
-                      value="4"
-                      name="bathrooms"
-                      checked={bathroomFilter === "4"}
-                      onChange={handleBathroomChange}
-                      onClick={handleBathroomChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-millitary"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      4
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-passport"
-                      type="radio"
-                      defaultValue
-                      value="5+"
-                      name="bathrooms"
-                      checked={bathroomFilter === "5+"}
-                      onChange={handleBathroomChange}
-                      onClick={handleBathroomChange}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-passport"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      5+
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-                Room size
-              </h3>
-              <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-license"
-                      type="radio"
-                      defaultValue
-                      value="500"
-                      name="roomSize"
-                      checked={roomSizeFilter === "500"}
-                      onChange={handleRoomSize}
-                      onClick={handleRoomSize}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-license"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      500 Sq. ft.
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-id"
-                      type="radio"
-                      defaultValue
-                      value="1000"
-                      name="roomSize"
-                      checked={roomSizeFilter === "1000"}
-                      onChange={handleRoomSize}
-                      onClick={handleRoomSize}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-id"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      1000 Sq. ft.
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-millitary"
-                      type="radio"
-                      defaultValue
-                      value="2000"
-                      name="roomSize"
-                      checked={roomSizeFilter === "2000"}
-                      onChange={handleRoomSize}
-                      onClick={handleRoomSize}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-millitary"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      2000 Sq. ft.
-                    </label>
-                  </div>
-                </li>
-                <li className="w-full dark:border-gray-600">
-                  <div className="flex items-center pl-3">
-                    <input
-                      id="horizontal-list-radio-passport"
-                      type="radio"
-                      defaultValue
-                      value="3000+"
-                      name="roomSize"
-                      checked={roomSizeFilter === "3000+"}
-                      onChange={handleRoomSize}
-                      onClick={handleRoomSize}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                    />
-                    <label
-                      htmlFor="horizontal-list-radio-passport"
-                      className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      3000 Sq. Ft. +
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            {/*  */}
-
-            {/*  */}
-
-            <div>
-              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-                Available till:
-              </h3>
-              <input
-                type="date"
-                name="availability"
-                value={filters.availability}
-                onChange={handleFilterChange}
-              />
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            color="gray"
-            onClick={handleCancelFilters}
-            className="bg-red-600 text-white"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => props.setOpenModal(undefined)}
-            className="bg-blue-600"
-          >
-            Save
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              color="gray"
+              onClick={handleCancelFilters}
+              className="bg-red-600 text-white"
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleSavefilter} className="bg-blue-600">
+              Save
+            </Button>
+          </Modal.Footer>
+        </div>
       </Modal>
     </>
   );

@@ -28,19 +28,23 @@ const routes = createBrowserRouter([
       },
       {
         path: `/book-house/:id`,
-        element: <BookHouse />,
+        element: (
+          <PrivateRoutes>
+            <BookHouse />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/signin",
+        element: <Signin />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
       },
     ],
   },
 
-  {
-    path: "/signin",
-    element: <Signin />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
   {
     path: "*",
     element: <NotFound />,

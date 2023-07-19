@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { UserAuthContext } from "../context/userContext";
@@ -12,6 +12,10 @@ export default function Signin() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { userRefetch, setUserRefetch } = useContext(UserAuthContext);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleSignin = async (event) => {
     window.scrollTo(0, 0);
@@ -25,12 +29,10 @@ export default function Signin() {
 
     await axios
       .post(
-        "https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/auth/login",
+        "https://house-hunter-server-bay.vercel.app/api/v1/auth/login",
         data
       )
       .then((res) => {
-        console.log(res.data.data.accessToken);
-
         if (res.data.success === true) {
           swal({
             text: `Signin Successful!`,
@@ -51,12 +53,12 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex justify-center items-center  min-h-screen">
-      <Card shadow={false} className="p-6 shadow-lg ">
-        <Typography variant="h4" color="blue-gray">
+    <div className="flex justify-center items-center  mt-40">
+      <Card shadow={false} className="p-6 shadow-lg house-card-body text-white">
+        <Typography variant="h4" color="white">
           Sign in
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
+        <Typography color="gray" className="mt-1 font-normal text-gray-300">
           Enter your details to signin.
         </Typography>
         <form
@@ -64,7 +66,13 @@ export default function Signin() {
           onSubmit={handleSignin}
         >
           <div className="mb-4 flex flex-col gap-6">
-            <Input size="lg" label="Email" required name="email" />
+            <Input
+              size="lg"
+              label="Email"
+              required
+              name="email"
+              className="text-white"
+            />
 
             <Input
               type="password"
@@ -72,6 +80,7 @@ export default function Signin() {
               label="Password"
               required
               name="password"
+              className="text-white"
             />
           </div>
           {error && (
@@ -88,7 +97,10 @@ export default function Signin() {
           >
             {isLoading ? "SIGN IN..." : "SIGN IN"}
           </Button>
-          <Typography color="gray" className="mt-4 text-center font-normal">
+          <Typography
+            color="gray"
+            className="mt-4 text-center font-normal text-gray-300"
+          >
             Dont have an account?{" "}
             <Link
               to="/signup"

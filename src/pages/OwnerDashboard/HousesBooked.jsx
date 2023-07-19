@@ -12,7 +12,7 @@ const HousesBooked = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/get/my-houses`,
+            `https://house-hunter-server-bay.vercel.app/api/v1/house/get/my-houses`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -20,13 +20,10 @@ const HousesBooked = () => {
             }
           )
           .then((res) => {
-            console.log(res.data.data);
             if (res.status === 200) {
               const bookedHouses = res.data.data.filter(
                 (house) => house.label === "booked"
               );
-
-              console.log(bookedHouses);
 
               setHouses(bookedHouses);
             }

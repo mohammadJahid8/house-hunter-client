@@ -21,7 +21,7 @@ const BookHouse = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
+            `https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -29,7 +29,6 @@ const BookHouse = () => {
             }
           )
           .then((res) => {
-            console.log(res.data);
             if (res.status === 200) {
               setIsLoading(false);
               setHouse(res.data.data);
@@ -42,7 +41,7 @@ const BookHouse = () => {
 
   const handleBookHouse = async (e) => {
     e.preventDefault();
-    if (bookingHouses?.length === 2) {
+    if (bookingHouses?.length >= 2) {
       swal({
         text: "You cant book more than two houses! Please remove one house from dashboard to book new house.",
         icon: "warning",
@@ -66,7 +65,7 @@ const BookHouse = () => {
       }
       await axios
         .post(
-          `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
+          `https://house-hunter-server-bay.vercel.app/api/v1/bookings`,
           data,
           {
             headers: {
@@ -75,12 +74,10 @@ const BookHouse = () => {
           }
         )
         .then((res) => {
-          console.log(res);
-
           if (res.data.success === true) {
             setrefetchHouse(!refetchHouse);
             swal({
-              title: "House booked successfully!",
+              text: "House booked successfully!",
               icon: "success",
             });
             navigate(-1);
@@ -89,7 +86,7 @@ const BookHouse = () => {
         .catch((err) => {
           console.log(err);
           swal({
-            title: "Something went wrong!",
+            text: "Something went wrong!",
             icon: "error",
           });
         });

@@ -5,7 +5,8 @@ import { UserAuthContext } from "../../context/userContext";
 
 const HouseSearch = () => {
   const [openModal, setOpenModal] = useState();
-  const { searchQuery, handleSearchChange } = useContext(UserAuthContext);
+  const { searchQuery, setSearchQuery, handleSearchChange } =
+    useContext(UserAuthContext);
 
   return (
     <div className="mb-6">
@@ -22,7 +23,11 @@ const HouseSearch = () => {
             data-dropdown-toggle="dropdown"
             className=" inline-flex items-center py-2.5 px-4 text-sm font-medium text-center    rounded-l-lg  focus:ring-4 focus:outline-none  bg-gray-700 hover:bg-gray-600 focus:ring-gray-700 text-white border-gray-600"
             type="button"
-            onClick={() => setOpenModal("default")}
+            onClick={() => {
+              setOpenModal("default");
+              setSearchQuery("");
+              document.getElementById("searchInput").value = "";
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +51,7 @@ const HouseSearch = () => {
             <input
               defaultValue={searchQuery}
               onChange={handleSearchChange}
-              id="search-dropdown"
+              id="searchInput"
               className="block p-2.5 w-full z-20 text-sm  outline-none  rounded-r-lg  border-l-2 border  focus:ring-blue-500  bg-gray-700 border-l-gray-600  border-gray-600 placeholder-gray-400 text-white focus:border-blue-500"
               placeholder="Search by house name or address..."
               required

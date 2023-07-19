@@ -1,10 +1,20 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 import houselogo from "../../assets/houseLogo.png";
 
 import { BsFillHouseCheckFill } from "react-icons/bs";
+import { UserAuthContext } from "../../context/userContext";
+import { useContext, useEffect } from "react";
 
 const RenterDashboard = () => {
+  const { user } = useContext(UserAuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.role !== "renter") {
+      navigate("/");
+    }
+  }, [user?.role, navigate]);
+
   return (
     <div>
       <div>

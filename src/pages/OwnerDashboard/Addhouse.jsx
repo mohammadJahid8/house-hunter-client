@@ -26,8 +26,6 @@ const Addhouse = () => {
     data.owner = user?.email;
     data.label = "for rent";
 
-    console.log(data);
-
     const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
 
     if (!phoneNumberRegex.test(data.phoneNumber)) {
@@ -37,18 +35,12 @@ const Addhouse = () => {
     }
 
     await axios
-      .post(
-        "https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house",
-        data,
-        {
-          headers: {
-            authorization: `${localStorage.getItem("houseToken")}`,
-          },
-        }
-      )
+      .post("https://house-hunter-server-bay.vercel.app/api/v1/house", data, {
+        headers: {
+          authorization: `${localStorage.getItem("houseToken")}`,
+        },
+      })
       .then((res) => {
-        console.log(res);
-
         if (res.data.success === true) {
           swal({
             title: "House added successfully!",

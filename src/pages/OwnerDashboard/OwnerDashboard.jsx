@@ -1,8 +1,18 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import houselogo from "../../assets/houseLogo.png";
 import { BsFillHouseCheckFill, BsFillHouseDoorFill } from "react-icons/bs";
+import { useContext, useEffect } from "react";
+import { UserAuthContext } from "../../context/userContext";
 
 const OwnerDashboard = () => {
+  const { user } = useContext(UserAuthContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.role !== "owner") {
+      navigate("/");
+    }
+  }, [user?.role, navigate]);
+
   return (
     <div>
       <div>

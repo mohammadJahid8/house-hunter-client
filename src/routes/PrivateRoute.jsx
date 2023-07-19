@@ -20,8 +20,6 @@ export default function PrivateRoutes({ children }) {
 
   const token = localStorage.getItem("houseToken");
 
-  console.log({ user, isLoadingUser });
-
   if (isLoadingUser)
     return (
       <HashLoader

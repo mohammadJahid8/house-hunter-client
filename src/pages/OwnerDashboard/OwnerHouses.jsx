@@ -16,7 +16,7 @@ const OwnerHouses = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/get/my-houses`,
+            `https://house-hunter-server-bay.vercel.app/api/v1/house/get/my-houses`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -24,7 +24,6 @@ const OwnerHouses = () => {
             }
           )
           .then((res) => {
-            console.log(res.data);
             if (res.status === 200) {
               setHouses(res.data.data);
             }
@@ -36,17 +35,12 @@ const OwnerHouses = () => {
 
   const handleDeleteHouse = async (id) => {
     await axios
-      .delete(
-        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
-        {
-          headers: {
-            authorization: `${localStorage.getItem("houseToken")}`,
-          },
-        }
-      )
+      .delete(`https://house-hunter-server-bay.vercel.app/api/v1/house/${id}`, {
+        headers: {
+          authorization: `${localStorage.getItem("houseToken")}`,
+        },
+      })
       .then((res) => {
-        console.log(res);
-
         if (res.data.success === true) {
           setrefetch(!refetch);
           swal({
@@ -133,7 +127,7 @@ const OwnerHouses = () => {
                 <td className="px-6 py-4">{house.availabilityDate}</td>
                 <td className="px-6 py-4">${house.rentPerMonth}</td>
                 <td className="px-6 py-4">{house.phoneNumber}</td>
-                <td className="px-6 pt-10 ">
+                <td className="px-6 py-4 ">
                   <Link
                     className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
                     to={`edit-house/${house._id}`}

@@ -29,8 +29,6 @@ export default function UserAuthProvider({ children }) {
     rentPerMonth: "", // Default rent range from 0 to 10000
   });
 
-  console.log("filters", filters);
-
   useEffect(() => {
     const getHouse = async () => {
       setIsLoading(true);
@@ -38,7 +36,7 @@ export default function UserAuthProvider({ children }) {
 
       await axios
         .get(
-          `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house?page=${currentPage}`,
+          `https://house-hunter-server-bay.vercel.app/api/v1/house?page=${currentPage}`,
           {
             headers: {
               authorization: `${localToken}`,
@@ -46,7 +44,6 @@ export default function UserAuthProvider({ children }) {
           }
         )
         .then((res) => {
-          console.log(res.data);
           if (res.status === 200) {
             setIsLoading(false);
             setHouses(res.data);
@@ -80,8 +77,6 @@ export default function UserAuthProvider({ children }) {
     if (event?.target) {
       const { name, value } = event.target;
 
-      console.log(name, value);
-
       setFilters((prevFilters) => ({
         ...prevFilters,
         [name]: value,
@@ -92,8 +87,6 @@ export default function UserAuthProvider({ children }) {
   };
 
   const handleRentRangeChange = (event) => {
-    console.log(event.target.value);
-
     setFilters((prevFilters) => ({
       ...prevFilters,
       rentPerMonth: event.target.value,
@@ -101,18 +94,32 @@ export default function UserAuthProvider({ children }) {
   };
 
   const filteredProperties = houses?.data?.filter((property) => {
-    const { name, address, city, phoneNumber } = property;
+    const {
+      name,
+      address,
+      city,
+      phoneNumber,
+      bedrooms,
+      bathrooms,
+      roomSize,
+      availabilityDate,
+      rentPerMonth,
+    } = property;
 
     // Search filter logic
     if (searchQuery) {
-      console.log("inside search");
+      const normalizedSearchQuery = searchQuery.toLowerCase().toString();
 
-      const normalizedSearchQuery = searchQuery.toLowerCase();
       if (
         name.toLowerCase().includes(normalizedSearchQuery) ||
         address.toLowerCase().includes(normalizedSearchQuery) ||
         city.toLowerCase().includes(normalizedSearchQuery) ||
-        phoneNumber.includes(searchQuery)
+        phoneNumber.includes(searchQuery) ||
+        bedrooms == searchQuery ||
+        bathrooms == searchQuery ||
+        roomSize == searchQuery ||
+        availabilityDate.includes(searchQuery) ||
+        rentPerMonth == searchQuery
       ) {
         return true;
       }
@@ -172,14 +179,11 @@ export default function UserAuthProvider({ children }) {
     // Rent per month filter logic
 
     if (property.rentPerMonth > parseInt(filters.rentPerMonth)) {
-      console.log("inside rentPerMonth");
       return false;
     }
 
     return true; // Property matches all filters
   });
-
-  console.log(filters?.rentPerMonth);
 
   useEffect(() => {
     const getUser = async () => {
@@ -188,7 +192,7 @@ export default function UserAuthProvider({ children }) {
         setIsLoadingUser(true);
         await axios
           .get(
-            "https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/users/my-profile",
+            "https://house-hunter-server-bay.vercel.app/api/v1/users/my-profile",
             {
               headers: {
                 authorization: `${localToken}`,
@@ -215,18 +219,13 @@ export default function UserAuthProvider({ children }) {
     const getHouse = async () => {
       const localToken = localStorage.getItem("houseToken");
       if (localToken) {
-        console.log(localToken);
         await axios
-          .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
-            {
-              headers: {
-                authorization: `${localToken}`,
-              },
-            }
-          )
+          .get(`https://house-hunter-server-bay.vercel.app/api/v1/bookings`, {
+            headers: {
+              authorization: `${localToken}`,
+            },
+          })
           .then((res) => {
-            console.log(res.data.data);
             if (res.status === 200) {
               setbookingHouses(res.data.data);
             }
