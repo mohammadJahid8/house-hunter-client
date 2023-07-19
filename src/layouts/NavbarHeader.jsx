@@ -45,7 +45,7 @@ export default function NavbarHead() {
           <Link to="/">
             <Typography className="mr-4 cursor-pointer py-1.5 font-medium flex">
               <img src={bookshelf} alt="bookshelf" className="h-6 w-6" />
-              Hero Hunters
+              House Hunters
             </Typography>
           </Link>
           <div className="flex items-center gap-4">

@@ -1,21 +1,29 @@
 /* eslint-disable react/prop-types */
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import { Button, Modal } from "flowbite-react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useState } from "react";
 export default function FilterModal({ openModal, setOpenModal }) {
+  const props = { openModal, setOpenModal };
   const minDate = new Date();
   const maxDate = new Date();
 
   const [selectedRange, setSelectedRange] = useState([minDate, maxDate]);
 
-  // Handle changes to the selected range
   const handleRangeChange = (values) => {
-    setSelectedRange(values);
+    const datetime = values.map((value) => {
+      const demo = new Date(value);
+      // const formatt = format(demo, "MMM dd, yyyy");
+      return demo;
+    });
+    console.log(datetime);
+    setSelectedRange(datetime);
   };
-  const props = { openModal, setOpenModal };
-  const formatLabel = (value) => format(value, "MMM dd, yyyy");
+
+  const formatLabel = (value) => {
+    console.log(value.toLocaleDateString());
+  };
   return (
     <>
       <Modal
@@ -273,10 +281,10 @@ export default function FilterModal({ openModal, setOpenModal }) {
 
             <Slider
               range
-              min={minDate.getTime()} // Convert date objects to timestamp
-              max={maxDate.getTime()}
-              defaultValue={[minDate.getTime(), maxDate.getTime()]} // Convert date objects to timestamp
-              value={selectedRange.map((date) => date.getTime())}
+              minValue={minDate.getTime()} // Convert date objects to timestamp
+              maxValue={maxDate.getTime()}
+              // defaultValue={[minDate.getTime(), maxDate.getTime()]} // Convert date objects to timestamp
+              // value={selectedRange.map((date) => date.getTime())}
               onChange={handleRangeChange}
               tipFormatter={formatLabel}
             />

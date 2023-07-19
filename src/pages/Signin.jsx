@@ -14,7 +14,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex justify-center items-center mt-16">
+    <div className="flex justify-center items-center  min-h-screen">
       <Card shadow={false} className="p-6 shadow-lg ">
         <Typography variant="h4" color="blue-gray">
           Sign in

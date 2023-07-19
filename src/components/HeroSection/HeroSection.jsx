@@ -12,8 +12,9 @@ const HeroSection = () => {
               Every home is a destination
             </h1>
             <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-              The best of Luxury Retreats is now Hero Hunteroffering the world's
-              most extraordinary homes with the highest standard of service.
+              The best of Luxury Retreats is now House Hunteroffering the
+              world's most extraordinary homes with the highest standard of
+              service.
             </p>
             <a
               href="#"
