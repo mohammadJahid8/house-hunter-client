@@ -1,5 +1,5 @@
 import { Typography } from "@material-tailwind/react";
-import bookshelf from "../assets/react.svg";
+import house from "../assets/houseLogo.png";
 const LINKS = [
   {
     title: "Product",
@@ -23,10 +23,10 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-7xl px-8">
         <div className="border-t">
           <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2  pt-6">
-            <div className="flex">
-              <img src={bookshelf} alt="logo-ct" className="w-8 h-8" />
-              <Typography variant="h5" className="mb-6">
-                Book Shelf
+            <div className="flex gap-2 ">
+              <img src={house} alt="logo-ct" className="w-6 h-6" />
+              <Typography variant="h5" className="mb-6 text-white">
+                House Hunter
               </Typography>
             </div>
             <div className="grid grid-cols-3 justify-between gap-4">
@@ -35,7 +35,7 @@ export default function Footer() {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="mb-3 font-medium opacity-40"
+                    className="mb-3 font-medium text-gray-500"
                   >
                     {title}
                   </Typography>
@@ -45,7 +45,7 @@ export default function Footer() {
                         as="a"
                         href="#"
                         color="gray"
-                        className="py-1.5 font-normal transition-colors hover:text-blue-gray-900"
+                        className="py-1.5 font-normal transition-colors text-gray-400 hover:text-blue-gray-500"
                       >
                         {link}
                       </Typography>
@@ -59,7 +59,7 @@ export default function Footer() {
         <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
           <Typography
             variant="small"
-            className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
+            className="mb-4 text-center font-normal text-gray-400 md:mb-0"
           >
             &copy; {currentYear}{" "}
             <a href="https://material-tailwind.com/">Material Tailwind</a>. All
@@ -72,7 +72,7 @@ export default function Footer() {
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-5 w-5"
+                className="h-5 w-5 text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -90,7 +90,7 @@ export default function Footer() {
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-5 w-5"
+                className="h-5 w-5 text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -108,7 +108,7 @@ export default function Footer() {
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-5 w-5"
+                className="h-5 w-5 text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -122,7 +122,7 @@ export default function Footer() {
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-5 w-5"
+                className="h-5 w-5 text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -140,7 +140,7 @@ export default function Footer() {
               className="opacity-80 transition-opacity hover:opacity-100"
             >
               <svg
-                className="h-5 w-5"
+                className="h-5 w-5 text-gray-400"
                 fill="currentColor"
                 viewBox="0 0 24 24"
                 aria-hidden="true"
