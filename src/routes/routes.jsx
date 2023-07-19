@@ -8,13 +8,14 @@ import Signup from "../pages/Signup";
 
 import OwnerDashboard from "../pages/OwnerDashboard/OwnerDashboard";
 import OwnerHouses from "../pages/OwnerDashboard/OwnerHouses";
-import Bookings from "../pages/OwnerDashboard/Bookings";
+
 import RenterDashboard from "../pages/RenterDashboard/RenterDashboard";
 import RenterBookings from "../pages/RenterDashboard/RenterBookings";
 import BookHouse from "../pages/BookHouse";
 import Addhouse from "../pages/OwnerDashboard/Addhouse";
 import EditHouse from "../pages/OwnerDashboard/EditHouse";
 import PrivateRoutes from "./PrivateRoute";
+import HousesBooked from "../pages/OwnerDashboard/HousesBooked";
 
 const routes = createBrowserRouter([
   {
@@ -57,8 +58,8 @@ const routes = createBrowserRouter([
         element: <OwnerHouses />,
       },
       {
-        path: "bookings",
-        element: <Bookings />,
+        path: "houses-booked",
+        element: <HousesBooked />,
       },
       {
         path: "addhouse",

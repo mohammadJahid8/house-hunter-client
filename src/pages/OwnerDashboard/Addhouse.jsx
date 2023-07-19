@@ -67,7 +67,7 @@ const Addhouse = () => {
 
   return (
     <div>
-      <h1>Add house</h1>
+      <h1 className="text-white text-xl mb-4">Add New House</h1>
 
       <form onSubmit={handleAddHouse} className="text-white">
         <div className="relative z-0 w-full mb-6 group">

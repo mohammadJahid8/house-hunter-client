@@ -1,37 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 
 import swal from "sweetalert";
+import { UserAuthContext } from "../../context/userContext";
 
 const RenterBookings = () => {
-  const [houses, setHouses] = useState([]);
-  const [refetch, setrefetch] = useState(false);
+  const { bookingHouses, setbookingHouses, refetchBooking } =
+    useContext(UserAuthContext);
+
+  console.log("bookingHouses", bookingHouses);
 
   // const { user } = useContext(UserAuthContext);
-
-  useEffect(() => {
-    const getHouse = async () => {
-      const localToken = localStorage.getItem("houseToken");
-      if (localToken) {
-        await axios
-          .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
-            {
-              headers: {
-                authorization: `${localToken}`,
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res.data.data);
-            if (res.status === 200) {
-              setHouses(res.data.data);
-            }
-          });
-      }
-    };
-    getHouse();
-  }, [refetch]);
 
   const handleDeleteHouse = async (id) => {
     await axios
@@ -47,7 +26,7 @@ const RenterBookings = () => {
         console.log(res);
 
         if (res.data.success === true) {
-          setrefetch(!refetch);
+          setbookingHouses(!refetchBooking);
           swal({
             title: "Booking deleted successfully!",
             icon: "success",
@@ -65,14 +44,14 @@ const RenterBookings = () => {
 
   return (
     <div>
-      <h1 className="text-white text-xl">Booked Houses</h1>
+      <h1 className="text-white text-xl">My bookings</h1>
 
-      {houses?.length === 2 ? (
+      {bookingHouses?.length === 2 ? (
         <p className="text-red-600 mb-2 text-sm">
           Note: You have already booked two houses. Remove one house for new
           booking.
         </p>
-      ) : houses?.length === 1 ? (
+      ) : bookingHouses?.length === 1 ? (
         <p className="text-red-600 mb-2 text-sm">
           Note: You can book one more house.
         </p>
@@ -118,7 +97,7 @@ const RenterBookings = () => {
             </tr>
           </thead>
           <tbody>
-            {houses?.map((house, index) => (
+            {bookingHouses?.map((house, index) => (
               <tr
                 className=" border-b dark:bg-gray-800 dark:border-gray-700"
                 key={index}

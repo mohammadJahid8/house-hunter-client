@@ -208,6 +208,34 @@ export default function UserAuthProvider({ children }) {
     getUser();
   }, [userRefetch]);
 
+  const [bookingHouses, setbookingHouses] = useState([]);
+  const [refetchBooking, setrefetchBooking] = useState(false);
+
+  useEffect(() => {
+    const getHouse = async () => {
+      const localToken = localStorage.getItem("houseToken");
+      if (localToken) {
+        console.log(localToken);
+        await axios
+          .get(
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
+            {
+              headers: {
+                authorization: `${localToken}`,
+              },
+            }
+          )
+          .then((res) => {
+            console.log(res.data.data);
+            if (res.status === 200) {
+              setbookingHouses(res.data.data);
+            }
+          });
+      }
+    };
+    getHouse();
+  }, [refetchBooking]);
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("houseToken");
@@ -250,6 +278,10 @@ export default function UserAuthProvider({ children }) {
         setIsLoading,
         refetchHouse,
         setrefetchHouse,
+        setrefetchBooking,
+        bookingHouses,
+        setbookingHouses,
+        refetchBooking,
       }}
     >
       {children}

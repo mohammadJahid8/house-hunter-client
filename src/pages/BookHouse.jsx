@@ -10,7 +10,8 @@ const BookHouse = () => {
   const [house, setHouse] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { user, refetchHouse, setrefetchHouse } = useContext(UserAuthContext);
+  const { user, refetchHouse, setrefetchHouse, bookingHouses } =
+    useContext(UserAuthContext);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -41,51 +42,58 @@ const BookHouse = () => {
 
   const handleBookHouse = async (e) => {
     e.preventDefault();
-    const data = {
-      house: house?._id,
-      renter: user?.email,
-      renterId: user?._id,
-      owner: user?.email,
-    };
-
-    const phoneNumber = e.target.number.value;
-
-    const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
-
-    if (!phoneNumberRegex.test(phoneNumber)) {
-      setError("Please enter a Bangladeshi phone number!");
-      setIsLoading(false);
-      return;
-    }
-    await axios
-      .post(
-        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
-        data,
-        {
-          headers: {
-            authorization: `${localStorage.getItem("houseToken")}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-
-        if (res.data.success === true) {
-          setrefetchHouse(!refetchHouse);
-          swal({
-            title: "House booked successfully!",
-            icon: "success",
-          });
-          navigate(-1);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        swal({
-          title: "Something went wrong!",
-          icon: "error",
-        });
+    if (bookingHouses?.length === 2) {
+      swal({
+        text: "You cant book more than two houses! Please remove one house from dashboard to book new house.",
+        icon: "warning",
       });
+    } else {
+      const data = {
+        house: house?._id,
+        renter: user?.email,
+        renterId: user?._id,
+        owner: user?.email,
+      };
+
+      const phoneNumber = e.target.number.value;
+
+      const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
+
+      if (!phoneNumberRegex.test(phoneNumber)) {
+        setError("Please enter a Bangladeshi phone number!");
+        setIsLoading(false);
+        return;
+      }
+      await axios
+        .post(
+          `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
+          data,
+          {
+            headers: {
+              authorization: `${localStorage.getItem("houseToken")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+
+          if (res.data.success === true) {
+            setrefetchHouse(!refetchHouse);
+            swal({
+              title: "House booked successfully!",
+              icon: "success",
+            });
+            navigate(-1);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          swal({
+            title: "Something went wrong!",
+            icon: "error",
+          });
+        });
+    }
   };
 
   return (

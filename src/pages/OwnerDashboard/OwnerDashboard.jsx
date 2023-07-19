@@ -60,7 +60,7 @@ const OwnerDashboard = () => {
               </li>
               <li>
                 <Link
-                  to="/houses-booked"
+                  to="houses-booked"
                   className="flex text-lg items-center p-2 text-gray-200 hover:text-black hover:bg-gray-100 rounded-lg dark:text-white bg-gray-800 dark:hover:bg-gray-700 group"
                 >
                   <BsFillHouseCheckFill className="text-2xl" />
