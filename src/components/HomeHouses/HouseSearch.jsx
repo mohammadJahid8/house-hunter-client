@@ -1,4 +1,9 @@
+import { useState } from "react";
+import FilterModal from "./FilterModal";
+
 const HouseSearch = () => {
+  const [openModal, setOpenModal] = useState();
+
   return (
     <div className="mb-6">
       <form className="max-w-2xl mx-auto">
@@ -14,6 +19,7 @@ const HouseSearch = () => {
             data-dropdown-toggle="dropdown"
             className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
             type="button"
+            onClick={() => setOpenModal("default")}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -65,6 +71,8 @@ const HouseSearch = () => {
           </div>
         </div>
       </form>
+
+      <FilterModal openModal={openModal} setOpenModal={setOpenModal} />
     </div>
   );
 };
