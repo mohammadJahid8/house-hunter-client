@@ -4,9 +4,9 @@ import Footer from "./Footer";
 
 export default function MainLayout() {
   return (
-    <div className="max-w-[90rem] mx-auto">
+    <div className=" mt-28 md:mt-16 ">
       <NavbarHead />
-      <div className=" h-screen">
+      <div className=" min-h-screen max-w-[90rem] mx-auto md:px-16 px-8">
         <Outlet />
       </div>
 

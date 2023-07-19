@@ -32,6 +32,14 @@ const OwnerDashboard = () => {
           aria-label="Sidebar"
         >
           <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+            <h1
+              className="mb-4"
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              Owner Dashboard
+            </h1>
             <ul className="space-y-2 font-medium">
               <li>
                 <Link

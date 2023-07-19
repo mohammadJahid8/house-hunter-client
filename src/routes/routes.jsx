@@ -9,6 +9,8 @@ import Signup from "../pages/Signup";
 import OwnerDashboard from "../pages/OwnerDashboard/OwnerDashboard";
 import OwnerHouses from "../pages/OwnerDashboard/OwnerHouses";
 import Bookings from "../pages/OwnerDashboard/Bookings";
+import RenterDashboard from "../pages/RenterDashboard/RenterDashboard";
+import RenterBookings from "../pages/RenterDashboard/RenterBookings";
 
 const routes = createBrowserRouter([
   {
@@ -45,6 +47,16 @@ const routes = createBrowserRouter([
       {
         path: "bookings",
         element: <Bookings />,
+      },
+    ],
+  },
+  {
+    path: "/renter-dashboard",
+    element: <RenterDashboard />,
+    children: [
+      {
+        path: "/renter-dashboard",
+        element: <RenterBookings />,
       },
     ],
   },

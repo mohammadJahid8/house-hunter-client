@@ -1,0 +1,8 @@
+@media only screen and (max-width: 768px) {
+  .hero-flex {
+    display: flex !important;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+}
