@@ -12,3 +12,7 @@
   backdrop-filter: blur(0.5px);
   -webkit-backdrop-filter: blur(0.5px);
 }
+
+.ant-upload {
+  width: 350px !important;
+}

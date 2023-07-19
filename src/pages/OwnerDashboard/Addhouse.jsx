@@ -5,13 +5,15 @@ import { UserAuthContext } from "../../context/userContext";
 import axios from "axios";
 import swal from "sweetalert";
 import { Toaster, toast } from "react-hot-toast";
+import ImageUpload from "./ImageUpload";
 
 const Addhouse = () => {
-  const { user } = useContext(UserAuthContext);
+  const { user, refetchOwnerHouses, setrefetchOwnerHouses } =
+    useContext(UserAuthContext);
 
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddHouse = async (event) => {
@@ -20,11 +22,18 @@ const Addhouse = () => {
     setError("");
     setIsLoading(true);
 
+    if (!imageUrl) {
+      setError("Please upload an image!");
+      setIsLoading(false);
+      return;
+    }
+
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
 
     data.owner = user?.email;
     data.label = "for rent";
+    data.picture = imageUrl;
 
     const phoneNumberRegex = /^(\+?88)?01[3-9]\d{8}$/;
 
@@ -47,37 +56,25 @@ const Addhouse = () => {
             icon: "success",
           });
           setIsLoading(false);
-          navigate("/owner-dashboard");
+          setrefetchOwnerHouses(!refetchOwnerHouses);
+          navigate(-1);
         }
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
-        toast.error("Something went wrong! Please try again.");
       });
   };
+
+  console.log(imageUrl);
 
   return (
     <div>
       <h1 className="text-white text-xl mb-4">Add New House</h1>
 
+      <ImageUpload imageUrl={imageUrl} setImageUrl={setImageUrl} />
       <form onSubmit={handleAddHouse} className="text-white">
-        <div className="relative z-0 w-full mb-6 group">
-          <input
-            type="text"
-            name="picture"
-            id="floating_email"
-            className="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            htmlFor="floating_email"
-            className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Picture Link
-          </label>
-        </div>
+        <div className="relative z-0 w-full mb-6 group"></div>
         <div className="relative z-0 w-full mb-6 group">
           <input
             type="text"
@@ -229,7 +226,7 @@ const Addhouse = () => {
           </div>
         </div>
 
-        <div className="relative z-0 w-full mb-6 group">
+        <div className="relative z-0 w-full mb-2 group">
           <input
             type="text"
             name="description"
@@ -247,16 +244,16 @@ const Addhouse = () => {
         </div>
 
         {error && (
-          <p color="red" className="font-sans text-sm text-red-700">
+          <p color="red" className="font-sans text-sm text-red-600 mb-2">
             {error}
           </p>
         )}
 
         <button
           type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Add House
+          {isLoading ? "Adding house.." : "Add House"}
         </button>
       </form>
 

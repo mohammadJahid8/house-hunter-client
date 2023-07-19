@@ -5,15 +5,37 @@ import houselogo from "../../assets/houseLogo.png";
 import { BsFillHouseCheckFill } from "react-icons/bs";
 import { UserAuthContext } from "../../context/userContext";
 import { useContext, useEffect } from "react";
+import { HashLoader } from "react-spinners";
+
+const override = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  margin: "0 auto",
+};
 
 const RenterDashboard = () => {
-  const { user } = useContext(UserAuthContext);
+  const { user, isLoadingUser } = useContext(UserAuthContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (user?.role !== "renter") {
+      console.log("here");
       navigate("/");
     }
   }, [user?.role, navigate]);
+
+  if (isLoadingUser)
+    return (
+      <HashLoader
+        color={"#2c98d0"}
+        loading={isLoadingUser}
+        cssOverride={override}
+        size={50}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   return (
     <div>

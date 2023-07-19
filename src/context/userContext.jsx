@@ -13,6 +13,7 @@ export default function UserAuthProvider({ children }) {
 
   const [userRefetch, setUserRefetch] = useState(false);
   const [refetchHouse, setrefetchHouse] = useState(false);
+  const [refetchOwnerHouses, setrefetchOwnerHouses] = useState(false);
 
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -250,6 +251,8 @@ export default function UserAuthProvider({ children }) {
         refetchBooking,
         isFilterApplied,
         setisFilterApplied,
+        refetchOwnerHouses,
+        setrefetchOwnerHouses,
       }}
     >
       {children}

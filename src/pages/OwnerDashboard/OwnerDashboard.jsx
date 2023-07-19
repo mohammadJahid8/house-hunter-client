@@ -3,15 +3,37 @@ import houselogo from "../../assets/houseLogo.png";
 import { BsFillHouseCheckFill, BsFillHouseDoorFill } from "react-icons/bs";
 import { useContext, useEffect } from "react";
 import { UserAuthContext } from "../../context/userContext";
+import { HashLoader } from "react-spinners";
+
+const override = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  margin: "0 auto",
+};
 
 const OwnerDashboard = () => {
-  const { user } = useContext(UserAuthContext);
+  const { user, isLoadingUser } = useContext(UserAuthContext);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (user?.role !== "owner") {
       navigate("/");
     }
   }, [user?.role, navigate]);
+
+  if (isLoadingUser)
+    return (
+      <HashLoader
+        color={"#2c98d0"}
+        loading={isLoadingUser}
+        cssOverride={override}
+        size={50}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
 
   return (
     <div>
