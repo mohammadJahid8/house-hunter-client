@@ -27,6 +27,8 @@ export default function UserAuthProvider({ children }) {
     rentPerMonth: [0, 1000000], // Default rent range from 0 to 10000
   });
 
+  console.log("filters", filters);
+
   useEffect(() => {
     const getHouse = async () => {
       setIsLoading(true);
@@ -114,10 +116,21 @@ export default function UserAuthProvider({ children }) {
       return false;
     }
 
-    // Bedrooms filter logic
-    if (filters.bedrooms && property.bedrooms !== parseInt(filters.bedrooms)) {
-      console.log("inside bedrooms");
-      return false;
+    console.log(
+      "filters.bedrooms",
+      property.bedrooms > parseInt(filters.bedrooms),
+      filters.bedrooms === "8+" && property.bedrooms < 8
+    );
+    if (
+      filters.bedrooms &&
+      (property.bedrooms > parseInt(filters.bedrooms) ||
+        filters.bedrooms === "8+")
+    ) {
+      if (filters.bedrooms === "8+" && property.bedrooms > 8) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // Bathrooms filter logic
