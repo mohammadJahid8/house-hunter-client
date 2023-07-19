@@ -7,7 +7,7 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import bookshelf from "../assets/react.svg";
+import houselogo from "../assets/houseLogo.png";
 import { UserAuthContext } from "../context/userContext";
 // import "./Navbar.css";
 
@@ -23,7 +23,7 @@ export default function NavbarHead() {
           as="li"
           variant="small"
           color="blue-gray"
-          className="p-1 font-normal"
+          className="p-1 text-white font-bold"
         >
           Home
         </Typography>
@@ -36,7 +36,7 @@ export default function NavbarHead() {
             as="li"
             variant="small"
             color="blue-gray"
-            className="p-1 font-normal"
+            className="p-1 text-white font-bold"
           >
             Dashboard
           </Typography>
@@ -47,12 +47,12 @@ export default function NavbarHead() {
 
   return (
     <>
-      <Navbar className="fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4 navbar-bg">
+      <Navbar className="fixed top-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4 navbar-bg bg-transparent border-none">
         <div className="flex items-center justify-between text-blue-gray-900">
           <Link to="/">
-            <Typography className="mr-4 cursor-pointer py-1.5 font-medium flex">
-              <img src={bookshelf} alt="bookshelf" className="h-6 w-6" />
-              House Hunters
+            <Typography className="mr-4 cursor-pointer py-1.5  flex text-white font-bold gap-2">
+              <img src={houselogo} alt="bookshelf" className="h-6 w-6 " />
+              House Hunter
             </Typography>
           </Link>
           <div className="flex items-center gap-4">
@@ -81,7 +81,7 @@ export default function NavbarHead() {
 
             <IconButton
               variant="text"
-              className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+              className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden text-gray-200"
               ripple={false}
               onClick={() => setOpenNav(!openNav)}
             >
@@ -89,7 +89,7 @@ export default function NavbarHead() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
-                  className="h-6 w-6"
+                  className="h-6 w-6 "
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth={2}

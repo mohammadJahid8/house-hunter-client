@@ -9,3 +9,15 @@ body {
   /* font-family: "Unbounded", cursive; */
   font-family: "Poppins", sans-serif;
 }
+
+.swal-modal {
+  background-color: #2c2b2b;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+.swal-text {
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* change the swal body color to dark */
