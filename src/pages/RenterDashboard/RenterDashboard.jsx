@@ -57,7 +57,7 @@ const RenterDashboard = () => {
                   to="/renter-dashboard"
                   className="flex text-lg items-center p-2 text-gray-200 hover:text-black hover:bg-gray-100 rounded-lg dark:text-white bg-gray-800 dark:hover:bg-gray-700 group"
                 >
-                  <BsFillHouseCheckFill />
+                  <BsFillHouseCheckFill className="text-2xl" />
                   <span className="ml-3">My Bookings</span>
                 </Link>
               </li>

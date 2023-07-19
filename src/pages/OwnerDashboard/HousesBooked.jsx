@@ -1,10 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-// import { UserAuthContext } from "../../context/userContext";
-import { Link } from "react-router-dom";
+
 import swal from "sweetalert";
 
-const OwnerHouses = () => {
+const HousesBooked = () => {
   const [houses, setHouses] = useState([]);
   const [refetch, setrefetch] = useState(false);
 
@@ -16,7 +15,7 @@ const OwnerHouses = () => {
       if (localToken) {
         await axios
           .get(
-            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/get/my-houses`,
+            `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings`,
             {
               headers: {
                 authorization: `${localToken}`,
@@ -24,7 +23,7 @@ const OwnerHouses = () => {
             }
           )
           .then((res) => {
-            console.log(res.data);
+            console.log(res.data.data);
             if (res.status === 200) {
               setHouses(res.data.data);
             }
@@ -37,7 +36,7 @@ const OwnerHouses = () => {
   const handleDeleteHouse = async (id) => {
     await axios
       .delete(
-        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/house/${id}`,
+        `https://house-hunter-server-mohammadjahid8.vercel.app/api/v1/bookings/${id}`,
         {
           headers: {
             authorization: `${localStorage.getItem("houseToken")}`,
@@ -50,7 +49,7 @@ const OwnerHouses = () => {
         if (res.data.success === true) {
           setrefetch(!refetch);
           swal({
-            title: "House deleted successfully!",
+            title: "Booking deleted successfully!",
             icon: "success",
           });
         }
@@ -66,15 +65,22 @@ const OwnerHouses = () => {
 
   return (
     <div>
-      <div className="flex item-center justify-between mb-4">
-        <h1 className="text-white text-xl">My Houses</h1>
-        <Link to="addhouse">
-          <button className="text-white  bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-xs px-3 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-            ADD NEW HOUSE
-          </button>
-        </Link>
-      </div>
+      <h1 className="text-white text-xl">Booked Houses</h1>
 
+      {houses?.length === 2 ? (
+        <p className="text-red-600 mb-2 text-sm">
+          Note: You have already booked two houses. Remove one house for new
+          booking.
+        </p>
+      ) : houses?.length === 1 ? (
+        <p className="text-red-600 mb-2 text-sm">
+          Note: You can book one more house.
+        </p>
+      ) : (
+        <p className="text-red-600 mb-2 text-sm">
+          Note: You can book two house only.
+        </p>
+      )}
       <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left text-white">
           <thead className="text-xs text-white uppercase bg-[#262626] ">
@@ -98,13 +104,13 @@ const OwnerHouses = () => {
                 roomSize
               </th>
               <th scope="col" className="px-6 py-3">
-                availability Date
+                availabilityDate
               </th>
               <th scope="col" className="px-6 py-3">
-                rent Per Month
+                rentPerMonth
               </th>
               <th scope="col" className="px-6 py-3">
-                phone Number
+                phoneNumber
               </th>
               <th scope="col" className="px-6 py-3">
                 Action
@@ -121,25 +127,22 @@ const OwnerHouses = () => {
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
-                  <img src={house?.picture} className="w-12 rounded-full" />
+                  <img
+                    src={house?.house?.picture}
+                    className="w-12 rounded-full"
+                  />
                 </th>
-                <td className="px-6 py-4">{house.name}</td>
+                <td className="px-6 py-4">{house?.house?.name}</td>
                 <td className="px-6 py-4">
-                  {house.address} {house.city}
+                  {house?.house?.address} {house?.house?.city}
                 </td>
-                <td className="px-6 py-4">{house.bedrooms}</td>
-                <td className="px-6 py-4">{house.bathrooms}</td>
-                <td className="px-6 py-4">{house.roomSize} Sq. Ft.</td>
-                <td className="px-6 py-4">{house.availabilityDate}</td>
-                <td className="px-6 py-4">${house.rentPerMonth}</td>
-                <td className="px-6 py-4">{house.phoneNumber}</td>
-                <td className="px-6 pt-10 ">
-                  <Link
-                    className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                    to={`edit-house/${house._id}`}
-                  >
-                    <p>Edit</p>
-                  </Link>
+                <td className="px-6 py-4">{house?.house?.bedrooms}</td>
+                <td className="px-6 py-4">{house?.house?.bathrooms}</td>
+                <td className="px-6 py-4">{house?.house?.roomSize} Sq. Ft.</td>
+                <td className="px-6 py-4">{house?.house?.availabilityDate}</td>
+                <td className="px-6 py-4">${house?.house?.rentPerMonth}</td>
+                <td className="px-6 py-4">{house?.house?.phoneNumber}</td>
+                <td className="px-6 py-4">
                   <button
                     onClick={() => handleDeleteHouse(house._id)}
                     className="font-medium text-red-600 hover:underline dark:text-cyan-500"
@@ -156,4 +159,4 @@ const OwnerHouses = () => {
   );
 };
 
-export default OwnerHouses;
+export default HousesBooked;
