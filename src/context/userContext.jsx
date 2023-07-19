@@ -80,6 +80,9 @@ export default function UserAuthProvider({ children }) {
 
   const handleFilterChange = (event) => {
     const { name, value } = event.target;
+
+    console.log(name, value);
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
@@ -87,7 +90,7 @@ export default function UserAuthProvider({ children }) {
   };
 
   const handleRentRangeChange = (event) => {
-    // console.log(event.target.value, newValue);
+    console.log(event.target.value);
 
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -115,8 +118,11 @@ export default function UserAuthProvider({ children }) {
     }
 
     // City filter logic
-    if (filters.city && city !== filters.city) {
-      console.log("inside city");
+    if (
+      filters.city.toLowerCase() &&
+      city.toLowerCase() !== filters.city.toLowerCase() &&
+      !city.includes(filters.city)
+    ) {
       return false;
     }
 
