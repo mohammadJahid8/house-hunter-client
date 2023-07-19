@@ -15,9 +15,18 @@ body {
   color: white;
   font-family: "Poppins", sans-serif;
 }
-.swal-text {
+.swal-text,
+.swal-title {
   color: white;
   font-family: "Poppins", sans-serif;
+}
+
+.swal-icon:after,
+.swal-icon:before {
+  background-color: initial;
+}
+.swal-icon--success__hide-corners {
+  background-color: initial !important;
 }
 
 /* change the swal body color to dark */
