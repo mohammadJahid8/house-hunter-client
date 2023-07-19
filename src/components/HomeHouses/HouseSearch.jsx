@@ -2,10 +2,11 @@
 import { useContext, useState } from "react";
 import FilterModal from "./FilterModal";
 import { UserAuthContext } from "../../context/userContext";
+import { TiTick } from "react-icons/ti";
 
 const HouseSearch = () => {
   const [openModal, setOpenModal] = useState();
-  const { searchQuery, setSearchQuery, handleSearchChange } =
+  const { searchQuery, handleSearchChange, isFilterApplied } =
     useContext(UserAuthContext);
 
   return (
@@ -21,30 +22,32 @@ const HouseSearch = () => {
           <button
             id="dropdown-button"
             data-dropdown-toggle="dropdown"
-            className=" inline-flex items-center py-2.5 px-4 text-sm font-medium text-center    rounded-l-lg  focus:ring-4 focus:outline-none  bg-gray-700 hover:bg-gray-600 focus:ring-gray-700 text-white border-gray-600"
+            className=" inline-flex gap-1 w-44 items-center py-2.5 px-4 text-sm font-medium text-center    rounded-l-lg  focus:ring-4 focus:outline-none  bg-gray-700 hover:bg-gray-600 focus:ring-gray-700 text-white border-gray-600"
             type="button"
             onClick={() => {
               setOpenModal("default");
-              setSearchQuery("");
-              document.getElementById("searchInput").value = "";
             }}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              aria-hidden="true"
-              role="presentation"
-              focusable="false"
-              style={{
-                display: "block",
-                height: 14,
-                width: 14,
-                fill: "currentcolor",
-              }}
-            >
-              <path d="M5 8a3 3 0 0 1 2.83 2H14v2H7.83A3 3 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.83 4H2V4h6.17A3 3 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
-            </svg>
-            Filter{" "}
+            {isFilterApplied == false ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                aria-hidden="true"
+                role="presentation"
+                focusable="false"
+                style={{
+                  display: "block",
+                  height: 14,
+                  width: 14,
+                  fill: "currentcolor",
+                }}
+              >
+                <path d="M5 8a3 3 0 0 1 2.83 2H14v2H7.83A3 3 0 1 1 5 8zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm6-8a3 3 0 1 1-2.83 4H2V4h6.17A3 3 0 0 1 11 2zm0 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+              </svg>
+            ) : (
+              <TiTick className="text-green-700" />
+            )}
+            {isFilterApplied ? "Filter Applied" : "Filter"}
           </button>
 
           <div className="relative w-full">

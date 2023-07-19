@@ -17,6 +17,7 @@ export default function UserAuthProvider({ children }) {
   const [houses, setHouses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingUser, setIsLoadingUser] = useState(false);
+  const [isFilterApplied, setisFilterApplied] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -93,80 +94,23 @@ export default function UserAuthProvider({ children }) {
     }));
   };
 
-  const filteredProperties = houses?.data?.filter((property) => {
-    const {
-      name,
-      address,
-      city,
-      phoneNumber,
-      bedrooms,
-      bathrooms,
-      roomSize,
-      availabilityDate,
-      rentPerMonth,
-    } = property;
-
-    // Search filter logic
-    if (searchQuery) {
-      const normalizedSearchQuery = searchQuery.toLowerCase().toString();
-
-      if (
-        name.toLowerCase().includes(normalizedSearchQuery) ||
-        address.toLowerCase().includes(normalizedSearchQuery) ||
-        city.toLowerCase().includes(normalizedSearchQuery) ||
-        phoneNumber.includes(searchQuery) ||
-        bedrooms == searchQuery ||
-        bathrooms == searchQuery ||
-        roomSize == searchQuery ||
-        availabilityDate.includes(searchQuery) ||
-        rentPerMonth == searchQuery
-      ) {
-        return true;
-      }
-      return false;
-    }
-
-    // City filter logic
+  let filteredProperties = houses?.data?.filter((property) => {
     if (
       filters.city.toLowerCase() &&
-      city.toLowerCase() !== filters.city.toLowerCase() &&
-      !city.includes(filters.city)
+      property?.city.toLowerCase() !== filters.city.toLowerCase() &&
+      !property?.city.includes(filters.city)
     ) {
       return false;
     }
 
-    if (
-      filters.bedrooms &&
-      (property.bedrooms > parseInt(filters.bedrooms) ||
-        filters.bedrooms === "8+")
-    ) {
-      if (filters.bedrooms === "8+" && property.bedrooms > 8) {
-        return true;
-      } else {
-        return false;
-      }
+    if (filters.bedrooms && property.bedrooms > parseInt(filters.bedrooms)) {
+      return false;
     }
-    if (
-      filters.bathrooms &&
-      (property.bathrooms > parseInt(filters.bathrooms) ||
-        filters.bathrooms === "5+")
-    ) {
-      if (filters.bathrooms === "5+" && property.bathrooms > 5) {
-        return true;
-      } else {
-        return false;
-      }
+    if (filters.bathrooms && property.bathrooms > parseInt(filters.bathrooms)) {
+      return false;
     }
-    if (
-      filters.roomSize &&
-      (property.roomSize > parseInt(filters.roomSize) ||
-        filters.roomSize === "3000+")
-    ) {
-      if (filters.roomSize === "3000+" && property.roomSize > 3000) {
-        return true;
-      } else {
-        return false;
-      }
+    if (filters.roomSize && property.roomSize > parseInt(filters.roomSize)) {
+      return false;
     }
 
     // Availability filter logic
@@ -174,7 +118,14 @@ export default function UserAuthProvider({ children }) {
       const userInputDate = new Date(filters.availability);
 
       const availableTillDate = new Date(property.availabilityDate);
-      return availableTillDate >= userInputDate;
+
+      if (userInputDate >= availableTillDate) {
+        return true;
+      } else if (filters.availability === "All") {
+        return true;
+      } else {
+        return false;
+      }
     }
     // Rent per month filter logic
 
@@ -184,6 +135,22 @@ export default function UserAuthProvider({ children }) {
 
     return true; // Property matches all filters
   });
+
+  if (searchQuery) {
+    const normalizedSearchQuery = searchQuery.toLowerCase().toString();
+    filteredProperties = filteredProperties?.filter(
+      (house) =>
+        house?.name.toLowerCase().includes(normalizedSearchQuery) ||
+        house?.address.toLowerCase().includes(normalizedSearchQuery) ||
+        house?.city.toLowerCase().includes(normalizedSearchQuery) ||
+        house?.phoneNumber.includes(searchQuery) ||
+        house?.bedrooms == searchQuery ||
+        house?.bathrooms == searchQuery ||
+        house?.roomSize == searchQuery ||
+        house?.availabilityDate.includes(searchQuery) ||
+        house?.rentPerMonth == searchQuery
+    );
+  }
 
   useEffect(() => {
     const getUser = async () => {
@@ -281,6 +248,8 @@ export default function UserAuthProvider({ children }) {
         bookingHouses,
         setbookingHouses,
         refetchBooking,
+        isFilterApplied,
+        setisFilterApplied,
       }}
     >
       {children}
