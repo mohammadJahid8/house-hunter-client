@@ -1,8 +1,11 @@
-import { useState } from "react";
+/* eslint-disable react/prop-types */
+import { useContext, useState } from "react";
 import FilterModal from "./FilterModal";
+import { UserAuthContext } from "../../context/userContext";
 
 const HouseSearch = () => {
   const [openModal, setOpenModal] = useState();
+  const { searchQuery, handleSearchChange } = useContext(UserAuthContext);
 
   return (
     <div className="mb-6">
@@ -41,6 +44,8 @@ const HouseSearch = () => {
 
           <div className="relative w-full">
             <input
+              value={searchQuery}
+              onChange={handleSearchChange}
               type="search"
               id="search-dropdown"
               className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"

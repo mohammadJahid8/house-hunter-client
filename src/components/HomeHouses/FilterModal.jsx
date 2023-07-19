@@ -1,29 +1,14 @@
 /* eslint-disable react/prop-types */
 // import { format } from "date-fns";
 import { Button, Modal } from "flowbite-react";
-import Slider from "rc-slider";
+
 import "rc-slider/assets/index.css";
-import { useState } from "react";
+import { useContext } from "react";
+import { UserAuthContext } from "../../context/userContext";
 export default function FilterModal({ openModal, setOpenModal }) {
   const props = { openModal, setOpenModal };
-  const minDate = new Date();
-  const maxDate = new Date();
+  const { filters, handleFilterChange } = useContext(UserAuthContext);
 
-  const [selectedRange, setSelectedRange] = useState([minDate, maxDate]);
-
-  const handleRangeChange = (values) => {
-    const datetime = values.map((value) => {
-      const demo = new Date(value);
-      // const formatt = format(demo, "MMM dd, yyyy");
-      return demo;
-    });
-    console.log(datetime);
-    setSelectedRange(datetime);
-  };
-
-  const formatLabel = (value) => {
-    console.log(value.toLocaleDateString());
-  };
   return (
     <>
       <Modal
@@ -45,6 +30,16 @@ export default function FilterModal({ openModal, setOpenModal }) {
                 type="range"
                 defaultValue={50}
                 className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg dark:bg-gray-700"
+              />
+            </div>
+
+            <div>
+              <label>City:</label>
+              <input
+                type="text"
+                name="city"
+                value={filters.city}
+                onChange={handleFilterChange}
               />
             </div>
 
@@ -278,21 +273,6 @@ export default function FilterModal({ openModal, setOpenModal }) {
             </div>
 
             {/*  */}
-
-            <Slider
-              range
-              minValue={minDate.getTime()} // Convert date objects to timestamp
-              maxValue={maxDate.getTime()}
-              // defaultValue={[minDate.getTime(), maxDate.getTime()]} // Convert date objects to timestamp
-              // value={selectedRange.map((date) => date.getTime())}
-              onChange={handleRangeChange}
-              tipFormatter={formatLabel}
-            />
-            {/* You can also display the selected date range */}
-            <div>
-              <span>Selected Range: {formatLabel(selectedRange[0])}</span> -{" "}
-              <span>{formatLabel(selectedRange[1])}</span>
-            </div>
           </div>
         </Modal.Body>
         <Modal.Footer>

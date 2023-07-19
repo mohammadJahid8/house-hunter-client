@@ -1,54 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import HouseSearch from "./HouseSearch";
-import axios from "axios";
+
 import { UserAuthContext } from "../../context/userContext";
 import { Link } from "react-router-dom";
 
 const HomeHouses = () => {
-  const [houses, setHouses] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const { user } = useContext(UserAuthContext);
-
-  useEffect(() => {
-    const getHouse = async () => {
-      setIsLoading(true);
-      const localToken = localStorage.getItem("houseToken");
-      if (localToken) {
-        console.log("currentPage", currentPage);
-
-        await axios
-          .get(`http://localhost:5000/api/v1/house?page=${currentPage}`, {
-            headers: {
-              authorization: `${localToken}`,
-            },
-          })
-          .then((res) => {
-            console.log(res.data);
-            if (res.status === 200) {
-              setIsLoading(false);
-              setHouses(res.data);
-            }
-          });
-      }
-    };
-    getHouse();
-  }, [currentPage]);
-
-  const handlePrevClick = () => {
-    window.scrollTo(0, document.getElementById("house").offsetTop - 100);
-
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const handleNextClick = () => {
-    window.scrollTo(0, document.getElementById("house").offsetTop - 100);
-    if (currentPage < Math.ceil(houses?.meta.total / houses?.meta.limit)) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
+  const {
+    user,
+    houses,
+    isLoading,
+    handleNextClick,
+    currentPage,
+    handlePrevClick,
+    filteredProperties,
+  } = useContext(UserAuthContext);
 
   return (
     <div className="mt-8" id="house">
@@ -60,7 +25,7 @@ const HomeHouses = () => {
             <>
               <HouseSearch />
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                {houses?.data?.map((property, index) => (
+                {filteredProperties?.map((property, index) => (
                   <div
                     key={index}
                     className="w-full  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
