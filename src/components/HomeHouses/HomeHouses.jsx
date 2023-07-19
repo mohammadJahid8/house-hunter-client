@@ -137,14 +137,25 @@ const HomeHouses = () => {
                         <span className="text-lg font-bold text-gray-900 dark:text-white">
                           ${property.rentPerMonth}
                         </span>
-                        {user?.role === "renter" && (
-                          <Link
-                            to={`/book-house/${property._id}`}
-                            href="#"
+                        {property?.label === "booked" ? (
+                          <button
                             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            disabled
                           >
-                            BOOK
-                          </Link>
+                            BOOKED
+                          </button>
+                        ) : (
+                          <>
+                            {user?.role === "renter" && (
+                              <Link
+                                to={`/book-house/${property._id}`}
+                                href="#"
+                                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-sm text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              >
+                                BOOK
+                              </Link>
+                            )}
+                          </>
                         )}
                       </div>
                     </div>

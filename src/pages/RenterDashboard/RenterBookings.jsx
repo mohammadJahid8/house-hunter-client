@@ -32,7 +32,7 @@ const RenterBookings = () => {
 
   const handleDeleteHouse = async (id) => {
     await axios
-      .delete(`http://localhost:5000/api/v1/house/${id}`, {
+      .delete(`http://localhost:5000/api/v1/bookings/${id}`, {
         headers: {
           authorization: `${localStorage.getItem("houseToken")}`,
         },
